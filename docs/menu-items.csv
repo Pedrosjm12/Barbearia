@@ -1,0 +1,30 @@
+name,category,price,isRecommended,description
+Classic Fade,Haircuts,$35,true,Crisp blending from top to fade with precision lineups. Our signature cut.
+High and Tight,Haircuts,$35,false,Short sides with length on top. Clean and professional.
+Textured Crop,Haircuts,$40,true,Modern textured cut with natural fade. Perfect for thick hair.
+Pompadour,Haircuts,$45,false,Voluminous top with tapered sides. Classic and timeless.
+Undercut,Haircuts,$40,false,Severe contrast between short sides and longer top.
+Buzz Cut,Haircuts,$25,false,All over short. Quick and clean.
+Beard Trim & Shape,Beard Trims,$25,true,Clean edges and defined lines with precision shaping.
+Full Beard Detail,Beard Trims,$35,false,Complete beard grooming with detail work and shaping.
+Beard Oil Treatment,Beard Trims,$15,false,Conditioning and softening treatment for healthy beards.
+Goatee Design,Beard Trims,$30,false,Specialized shaping and design for goatees.
+Classic Shave,Shaves,$30,true,Traditional straight razor shave with hot towel treatment.
+Hot Towel Shave,Shaves,$35,false,Luxe shave experience with hot towel and premium finish.
+Neck Shave Only,Shaves,$15,false,Clean neck area shave and detail.
+Lineup Only,Lineups,$15,false,Sharp edge work and detailing on existing cut.
+Lineup with Fade,Lineups,$40,true,Fresh lineup combined with a precision fade refresh.
+Design & Waves,Lineups,$30,false,Custom line designs and wave pattern work.
+Styling Add-On,Styling,$10,false,Professional product application and styling finish.
+Premium Styling,Styling,$20,false,Advanced styling with premium products and technique.
+Hair Wash & Dry,Styling,$15,false,Complete wash and blow-dry service.
+Eyebrow Trim,Add-ons,$10,false,Clean and shape eyebrows to frame the face.
+Ear & Nose Trim,Add-ons,$10,false,Precision trimming of unwanted hair.
+Hairline Detail,Add-ons,$15,true,Ultra-precise detail work for a sharp hairline.
+Scalp Treatment,Add-ons,$20,false,Therapeutic scalp massage and treatment.
+Beard Dye,Add-ons,$25,false,Professional beard coloring to match hair or preference.
+Hair Coloring,Add-ons,$45,false,Full hair color service with precision application.
+Head Massage,Add-ons,$15,false,Relaxing scalp and neck massage to relieve tension.
+Signature Package,Packages,$75,true,"Fade + Beard Trim + Styling + Head Massage. Best value."
+Executive Package,Packages,$95,false,"Full Shave + Premium Styling + Scalp Treatment. The ultimate experience."
+Quick Cut Package,Packages,$50,false,Haircut + Lineup + Styling. Fast and sharp.
