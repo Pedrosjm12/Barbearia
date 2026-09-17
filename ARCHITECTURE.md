@@ -1,4 +1,4 @@
-# Architecture — FADE Barbershop
+# Architecture — Talentos Black Barbershop
 
 Reference document for how this project is put together: stack, structure, data, conventions, and current implementation state. Read this before making changes, especially after time away from the project.
 
@@ -6,7 +6,7 @@ Reference document for how this project is put together: stack, structure, data,
 
 ## 1. What this project is
 
-A website for **FADE**, a premium urban barbershop. Repository: [Pedrosjm12/Barbearia](https://github.com/Pedrosjm12/Barbearia). It was split out of a personal monorepo (`Pedrosjm12/Projetos`) into its own repository on 2026-09-16, following the same pattern used for the `Marcenaria` project.
+A website for **Talentos Black**, a neighborhood barbershop in Uberlândia (MG). The brand was renamed from the original "FADE" placeholder on 2026-09-16; the visual system (colors, type) was kept. Repository: [Pedrosjm12/Barbearia](https://github.com/Pedrosjm12/Barbearia). It was split out of a personal monorepo (`Pedrosjm12/Projetos`) into its own repository on 2026-09-16, following the same pattern used for the `Marcenaria` project.
 
 The visual identity is defined by a reference mockup (`docs/design/references/design-barbearia.webp`) and fully specified in `docs/design/`. **The design system documentation is more complete than the actual app code right now** — see [§5 Implementation status](#5-implementation-status) before assuming anything in `app/` reflects the brand.
 
@@ -92,27 +92,24 @@ There is **no `components/` directory yet**. `docs/design/COMPONENTS.md` and `do
 
 ## 5. Implementation status
 
-**Be precise about this — it's the most important thing to know before touching the app.**
-
 | Area | Status |
 |---|---|
-| Design system docs | ✅ Complete (`docs/design/`) |
-| Design tokens in CSS | ✅ Present in `app/globals.css` (`--color-*`, `--space-*`, `--transition-*`, dark-mode-by-default body styles, `prefers-reduced-motion`, focus-visible ring) |
-| Tailwind config for tokens | ⚠️ Written (`tailwind.config.ts`) but its relationship to Tailwind 4's CSS-first `@theme` config needs verification — see §6 |
-| Root layout (`app/layout.tsx`) | ❌ Still default `create-next-app` output — Geist fonts (not Inter/JetBrains Mono per `docs/design/TYPOGRAPHY.md`), generic `<title>`/`<meta>`, no FADE branding |
-| Home page (`app/page.tsx`) | ❌ Still default `create-next-app` starter content — no Hero/Services/CTA/Footer sections from `docs/design/PAGE-PATTERNS.md` |
-| Reusable components | ❌ None exist yet (`Button`, `Input`, `Card`, `Modal`, `ServiceCard`, etc. are specced in `COMPONENTS.md`/`IMPLEMENTATION.md` but not built) |
-| Menu data consumption | ❌ `docs/menu-items.csv` is not read/rendered anywhere |
-| `design-enforcer` subagent | ✅ Created (`.claude/agents/design-enforcer.md`) — ready to audit once real UI exists |
-| Booking/contact functionality | ❌ Not started (no forms, no backend, no API routes) |
+| Design system docs | ✅ Rebranded to Talentos Black; PT-BR locale and the three "signature motion" patterns added (DESIGN-TOKENS.md) |
+| Tokens | ✅ Only in `app/globals.css` (`@theme`, `tb-*` colors). `tailwind.config.ts` was removed (it was inert under Tailwind 4) |
+| Layout | ✅ `app/layout.tsx`: Inter + JetBrains Mono, `lang="pt-BR"`, Header/Footer, red curtain-line element |
+| Pages | ✅ `/` (hero, em alta, galeria, agendamento, CTA), `/sobre` (história), `/menu` (29 serviços por categoria) |
+| Page transitions | ✅ React `<ViewTransition>` via `components/transition/PageShell.tsx` (wrap each page, not the layout) + CSS in `globals.css` |
+| Menu data | ✅ `data/menu.ts`, translated from `docs/menu-items.csv` — **suggested BRL prices, to be confirmed** |
+| Images | ✅ Unsplash (free license), hand-picked per item in `data/photos.ts`; credits in the footer; `images.unsplash.com` allowed in `next.config.ts` |
+| Booking | ✅ `components/booking/BookingWizard.tsx` — 4 steps, occupied slots simulated (`data/agenda.ts`), saved to `localStorage` only |
+| Payments | ⚠️ **Simulated** (`lib/payments.ts`, `mockProvider`). Implement `PaymentProvider` server-side (Mercado Pago/Stripe) to charge for real. Card numbers ending in 0000 simulate a decline |
+| Placeholder content | ⚠️ Address, WhatsApp, barber names and the `/sobre` story are fictional placeholders |
 
-**In short**: this is a fully-specified design system sitting on top of an unmodified Next.js starter template. The next real milestone is building `app/layout.tsx`, `app/page.tsx`, and a `components/` directory that actually implement what `docs/design/` describes.
+## 6. Resolved: Tailwind 4 config duplication
 
----
+> **Resolved on 2026-09-16:** `tailwind.config.ts` was deleted and all tokens now live in the `@theme` block of `app/globals.css` (utilities are `bg-tb-black`, `text-tb-cream`, etc.). The notes below are kept for history.
 
-## 6. Known risk: Tailwind 4 config duplication
-
-Two things currently define the same tokens in two different places:
+Two things used to define the same tokens in two different places:
 
 1. `tailwind.config.ts` — classic `theme.extend.colors` / `spacing` / etc. (v3-style JS config)
 2. `app/globals.css` — `@theme inline { ... }` block plus a separate `:root { ... }` block, both redefining the same colors/spacing as CSS custom properties

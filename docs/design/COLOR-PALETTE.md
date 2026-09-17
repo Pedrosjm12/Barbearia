@@ -1,4 +1,4 @@
-# Color Palette — FADE Barbershop
+# Color Palette — Talentos Black Barbershop
 
 The palette is deliberately minimal: high contrast between deep blacks and cream whites, with a single aggressive red accent for hierarchy and action.
 

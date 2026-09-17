@@ -1,4 +1,4 @@
-# Design Tokens — FADE Barbershop
+# Design Tokens — Talentos Black Barbershop
 
 A complete token system for Tailwind CSS and component implementation.
 
@@ -19,11 +19,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'fade-black': '#000000',
-        'fade-cream': '#F5F1E8',
-        'fade-red': '#E63946',
-        'fade-charcoal': '#2A2A2A',
-        'fade-gray-light': '#E8E8E8',
+        'tb-black': '#000000',
+        'tb-cream': '#F5F1E8',
+        'tb-red': '#E63946',
+        'tb-charcoal': '#2A2A2A',
+        'tb-gray-light': '#E8E8E8',
       },
     },
   },
@@ -122,7 +122,24 @@ Motion is minimal and purposeful:
 - **Base**: Color transitions, opacity fades
 - **Slow**: Page transitions, entrance animations
 
-Never auto-play animations. Only animate in response to user interaction (hover, click, focus) or a deliberate page-load sequence.
+Never auto-play animations. Only animate in response to user interaction (hover, click, focus, navigation) or a deliberate reveal on scroll.
+
+### Signature motion (Talentos Black)
+
+```css
+--ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);  /* page transitions, button fills */
+--ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1); /* image reveals, hover zoom */
+--duration-curtain: 700ms;
+--duration-reveal: 900ms;
+```
+
+The site has three approved motion patterns — nothing else animates:
+
+1. **Page curtain** (route change, via React `<ViewTransition>`): the new page wipes in from the bottom with `clip-path: inset(100% 0 0 0) → inset(0)` over `--duration-curtain` / `--ease-curtain`, while the old page dims (`brightness(0.4)`) and drifts up 48px. A 2px red line rides the leading edge of the wipe. The header stays anchored.
+2. **Button fill**: a solid layer fills the button from the bottom (`clip-path`, 300ms `--ease-curtain`), the label rolls up to a duplicate copy (translateY 100%), and the arrow icon moves 4px right.
+3. **Image reveal and hover**: images are unveiled once when they scroll into view (`clip-path: inset(100% 0 0 0) → inset(0)` plus a scale of 1.15 → 1 over `--duration-reveal` / `--ease-out-soft`); on hover the image scales to 1.08 (500ms) and a black gradient overlay deepens from 40% to 70%. The hero image has a slow parallax (max 15% of the scroll).
+
+Under `prefers-reduced-motion: reduce`, all three collapse to an instant state change (no clip, no scale, no parallax).
 
 ## Responsive Breakpoints
 

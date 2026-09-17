@@ -1,12 +1,12 @@
-# Style Guide — FADE Barbershop
+# Style Guide — Talentos Black Barbershop
 
-The complete visual and brand identity system for FADE Premium Barbershop.
+The complete visual and brand identity system for Talentos Black Premium Barbershop.
 
 ---
 
 ## Brand Identity
 
-**FADE** is a premium barbershop that serves a clientele seeking precision cuts, attention to detail, and an urban aesthetic. The brand voice is confident, professional, and slightly edgy—reflecting the precision of the craft and the urban energy of the space.
+**Talentos Black** is a premium barbershop that serves a clientele seeking precision cuts, attention to detail, and an urban aesthetic. The brand voice is confident, professional, and slightly edgy—reflecting the precision of the craft and the urban energy of the space.
 
 ### Brand Pillars
 - **Precision**: Every cut is exact; no compromise on quality
@@ -142,9 +142,13 @@ Every interactive element has clear, visible states:
 Animations are purposeful and respectful:
 
 - **Hover transitions**: 150ms duration (quick feedback)
-- **Page transitions**: 300ms (smooth but not slow)
-- **Page load sequence**: One orchestrated entrance (e.g., fade-in, headline slides up)
-- **No auto-playing animations**: Only respond to user action or deliberate reveal
+- **Page transitions**: the "page curtain" (700ms), see DESIGN-TOKENS.md → Signature motion
+- **Buttons**: the "button fill" pattern
+- **Images**: reveal-on-scroll once, zoom on hover
+- **No auto-playing animations**: Only respond to user action, navigation or deliberate reveal
+
+### Language & locale
+The site is written in **Brazilian Portuguese** (`lang="pt-BR"`), prices in reais (`R$ 50`), dates as `dd/mm`. Tone: warm, neighborhood, confident — "a barbearia do bairro que virou referência em Uberlândia".
 
 Respect `prefers-reduced-motion` preference—disable animations for users who prefer them.
 
@@ -163,7 +167,7 @@ Keep it conversational and action-focused:
 Be specific and benefit-focused:
 
 - Good: "Precision Lineups. Premium Care."
-- Avoid: "Welcome to FADE" or "Services and Features"
+- Avoid: "Welcome to Talentos Black" or "Services and Features"
 
 ### Body Copy
 Use short sentences and short paragraphs. Aim for 5–7 words per sentence on average.

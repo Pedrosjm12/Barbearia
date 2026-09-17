@@ -1,69 +1,217 @@
 @import "tailwindcss";
 
+/* Talentos Black design tokens — source: docs/design/DESIGN-TOKENS.md */
+@theme {
+  --color-tb-black: #000000;
+  --color-tb-cream: #f5f1e8;
+  --color-tb-red: #e63946;
+  --color-tb-red-active: #bf2d2d;
+  --color-tb-charcoal: #2a2a2a;
+  --color-tb-gray-light: #e8e8e8;
+
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --ease-curtain: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @theme inline {
-  --color-black: #000000;
-  --color-cream: #F5F1E8;
-  --color-red: #E63946;
-  --color-charcoal: #2A2A2A;
-  --color-gray-light: #E8E8E8;
-
-  --font-display: 'Inter', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Courier New', monospace;
-
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --space-4xl: 6rem;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), "Courier New", monospace;
 }
 
 :root {
-  /* Colors */
-  --color-black: #000000;
-  --color-cream: #F5F1E8;
-  --color-red: #E63946;
-  --color-charcoal: #2A2A2A;
-  --color-gray-light: #E8E8E8;
-
-  /* Spacing */
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 1.5rem;
-  --space-xl: 2rem;
-  --space-2xl: 3rem;
-  --space-3xl: 4rem;
-  --space-4xl: 6rem;
-
-  /* Typography */
-  --font-display: 'Inter', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-
-  /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-curtain: 700ms;
+  --duration-reveal: 900ms;
 }
 
-/* FADE Design System - Default Dark Mode */
 html {
-  --tw-bg-opacity: 1;
-  background-color: var(--color-black);
+  background-color: var(--color-tb-black);
+  scroll-behavior: smooth;
 }
 
 body {
-  background-color: var(--color-black);
-  color: var(--color-cream);
-  font-family: var(--font-body);
+  background-color: var(--color-tb-black);
+  color: var(--color-tb-cream);
+  font-family: var(--font-sans);
   line-height: 1.6;
 }
 
-/* Respect prefers-reduced-motion */
+:focus-visible {
+  outline: 2px solid var(--color-tb-red);
+  outline-offset: 2px;
+}
+
+/* ---------- Button fill ---------- */
+.btn-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.btn-fill::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-tb-cream);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 300ms var(--ease-curtain);
+}
+.btn-fill:hover::before,
+.btn-fill:focus-visible::before {
+  clip-path: inset(0 0 0 0);
+}
+.btn-label {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+.btn-label > span {
+  display: block;
+  transition: transform 300ms var(--ease-curtain);
+}
+.btn-label > span + span {
+  position: absolute;
+  inset: 0;
+  transform: translateY(100%);
+}
+.btn-fill:hover .btn-label > span,
+.btn-fill:focus-visible .btn-label > span {
+  transform: translateY(-100%);
+}
+.btn-fill:hover .btn-label > span + span,
+.btn-fill:focus-visible .btn-label > span + span {
+  transform: translateY(0);
+}
+.btn-arrow {
+  transition: transform 300ms var(--ease-curtain);
+}
+.btn-fill:hover .btn-arrow,
+.btn-fill:focus-visible .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- Image reveal & hover ---------- */
+/* O recorte fica no filho: o IntersectionObserver ignora alvos totalmente recortados. */
+.reveal > .reveal-inner {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path var(--duration-reveal) var(--ease-out-soft);
+}
+.reveal img {
+  transform: scale(1.15);
+  transition: transform var(--duration-reveal) var(--ease-out-soft);
+}
+.reveal[data-visible="true"] > .reveal-inner {
+  clip-path: inset(0 0 0 0);
+}
+.reveal[data-visible="true"] img {
+  transform: scale(1);
+}
+.img-hover img {
+  transition: transform 500ms var(--ease-out-soft);
+}
+.img-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1));
+  opacity: 0.45;
+  transition: opacity 500ms var(--ease-out-soft);
+  pointer-events: none;
+}
+.group:hover .img-hover img,
+.img-hover:hover img {
+  transform: scale(1.08);
+}
+.group:hover .img-hover::after,
+.img-hover:hover::after {
+  opacity: 0.8;
+}
+
+/* ---------- Hero entrance ---------- */
+.hero-rise {
+  animation: hero-rise 900ms var(--ease-out-soft) both;
+}
+.hero-zoom {
+  animation: hero-zoom 1600ms var(--ease-out-soft) both;
+}
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+@keyframes hero-zoom {
+  from {
+    transform: scale(1.12);
+  }
+}
+
+/* ---------- Page curtain (React <ViewTransition>) ---------- */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-old(.page-curtain) {
+  animation: curtain-out var(--duration-curtain) var(--ease-curtain) both;
+}
+::view-transition-new(.page-curtain) {
+  animation: curtain-in var(--duration-curtain) var(--ease-curtain) both;
+  z-index: 1;
+}
+@keyframes curtain-out {
+  to {
+    transform: translateY(-48px);
+    filter: brightness(0.4);
+  }
+}
+@keyframes curtain-in {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+/* Red line riding the curtain's leading edge */
+::view-transition-group(curtain-line) {
+  /* O elemento real é transparente; a linha é pintada no próprio grupo. */
+  background: var(--color-tb-red);
+  animation: curtain-line var(--duration-curtain) var(--ease-curtain) both;
+  z-index: 2;
+}
+::view-transition-old(curtain-line),
+::view-transition-new(curtain-line) {
+  animation: none;
+}
+@keyframes curtain-line {
+  from {
+    transform: translateY(100vh);
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -71,16 +219,16 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-}
-
-/* Focus indicator for keyboard navigation */
-:focus-visible {
-  outline: 2px solid var(--color-red);
-  outline-offset: 2px;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation: none !important;
+  }
+  .reveal > .reveal-inner,
+  .reveal img {
+    clip-path: none;
+    transform: none;
+  }
 }

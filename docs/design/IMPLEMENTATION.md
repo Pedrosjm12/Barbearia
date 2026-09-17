@@ -1,4 +1,4 @@
-# Implementation Guide — FADE Barbershop
+# Implementation Guide — Talentos Black Barbershop
 
 Practical examples and code patterns for implementing the design system with Next.js, React, and Tailwind CSS.
 
@@ -6,7 +6,7 @@ Practical examples and code patterns for implementing the design system with Nex
 
 ## Tailwind Configuration
 
-Update your `tailwind.config.ts` to include the FADE design tokens:
+Update your `tailwind.config.ts` to include the Talentos Black design tokens:
 
 ```ts
 import type { Config } from 'tailwindcss';
@@ -15,11 +15,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'fade-black': '#000000',
-        'fade-cream': '#F5F1E8',
-        'fade-red': '#E63946',
-        'fade-charcoal': '#2A2A2A',
-        'fade-gray-light': '#E8E8E8',
+        'tb-black': '#000000',
+        'tb-cream': '#F5F1E8',
+        'tb-red': '#E63946',
+        'tb-charcoal': '#2A2A2A',
+        'tb-gray-light': '#E8E8E8',
       },
       fontFamily: {
         display: ['Inter', 'system-ui', 'sans-serif'],
@@ -106,12 +106,12 @@ export function Button({
   className,
   ...props
 }: ButtonProps) {
-  const baseStyles = 'font-bold font-display transition-colors duration-fast outline-none focus:outline-2 focus:outline-offset-2 focus:outline-fade-red disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles = 'font-bold font-display transition-colors duration-fast outline-none focus:outline-2 focus:outline-offset-2 focus:outline-tb-red disabled:opacity-50 disabled:cursor-not-allowed';
 
   const variants = {
-    primary: 'bg-fade-red text-fade-black hover:bg-[#D62828] active:bg-[#BF2D2D]',
-    secondary: 'border border-fade-cream text-fade-cream hover:bg-fade-charcoal active:text-fade-red',
-    icon: 'p-0 hover:bg-fade-charcoal',
+    primary: 'bg-tb-red text-tb-black hover:bg-[#D62828] active:bg-[#BF2D2D]',
+    secondary: 'border border-tb-cream text-tb-cream hover:bg-tb-charcoal active:text-tb-red',
+    icon: 'p-0 hover:bg-tb-charcoal',
   };
 
   const sizes = {
@@ -154,29 +154,29 @@ export function Input({
       {label && (
         <label
           htmlFor={inputId}
-          className="text-sm font-medium text-fade-cream"
+          className="text-sm font-medium text-tb-cream"
         >
           {label}
-          {props.required && <span className="text-fade-red ml-1">*</span>}
+          {props.required && <span className="text-tb-red ml-1">*</span>}
         </label>
       )}
       <input
         id={inputId}
         className={`
-          bg-fade-charcoal text-fade-cream px-4 py-3 text-base
+          bg-tb-charcoal text-tb-cream px-4 py-3 text-base
           border transition-colors duration-fast
           focus:outline-none
-          ${error ? 'border-fade-red focus:border-fade-red' : 'border-fade-gray-light focus:border-fade-red'}
-          placeholder:text-fade-gray-light placeholder:opacity-60
+          ${error ? 'border-tb-red focus:border-tb-red' : 'border-tb-gray-light focus:border-tb-red'}
+          placeholder:text-tb-gray-light placeholder:opacity-60
           disabled:opacity-50 disabled:cursor-not-allowed
         `}
         {...props}
       />
       {error && (
-        <p className="text-xs text-fade-red">✕ {error}</p>
+        <p className="text-xs text-tb-red">✕ {error}</p>
       )}
       {helperText && !error && (
-        <p className="text-xs text-fade-gray-light">{helperText}</p>
+        <p className="text-xs text-tb-gray-light">{helperText}</p>
       )}
     </div>
   );
@@ -200,21 +200,21 @@ export function ServiceCard({
   onBook,
 }: ServiceCardProps) {
   return (
-    <div className="bg-fade-charcoal p-6 shadow-lg hover:shadow-2xl transition-shadow duration-base">
+    <div className="bg-tb-charcoal p-6 shadow-lg hover:shadow-2xl transition-shadow duration-base">
       {icon && (
-        <div className="mb-4 text-fade-red text-3xl">
+        <div className="mb-4 text-tb-red text-3xl">
           {icon}
         </div>
       )}
-      <h3 className="text-2xl font-bold text-fade-cream mb-2 font-display">
+      <h3 className="text-2xl font-bold text-tb-cream mb-2 font-display">
         {name}
       </h3>
-      <p className="text-sm text-fade-gray-light mb-6 leading-relaxed">
+      <p className="text-sm text-tb-gray-light mb-6 leading-relaxed">
         {description}
       </p>
       <button
         onClick={onBook}
-        className="text-fade-red font-bold text-base flex items-center gap-2 hover:gap-3 transition-all duration-fast"
+        className="text-tb-red font-bold text-base flex items-center gap-2 hover:gap-3 transition-all duration-fast"
       >
         Book Now
         <span>→</span>
@@ -248,7 +248,7 @@ export function Modal({
     <>
       {/* Overlay */}
       <div
-        className="fixed inset-0 bg-fade-black/70 backdrop-blur-sm z-40"
+        className="fixed inset-0 bg-tb-black/70 backdrop-blur-sm z-40"
         onClick={onClose}
         role="presentation"
       />
@@ -256,16 +256,16 @@ export function Modal({
       {/* Modal Box */}
       <dialog
         open={isOpen}
-        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90%] max-w-md bg-fade-black border-2 border-fade-red p-8 outline-none"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 w-[90%] max-w-md bg-tb-black border-2 border-tb-red p-8 outline-none"
       >
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-3xl font-bold text-fade-cream font-display">
+          <h2 className="text-3xl font-bold text-tb-cream font-display">
             {title}
           </h2>
           <button
             onClick={onClose}
-            className="text-fade-cream hover:text-fade-red transition-colors duration-fast text-2xl leading-none"
+            className="text-tb-cream hover:text-tb-red transition-colors duration-fast text-2xl leading-none"
             aria-label="Close modal"
           >
             ✕
@@ -273,13 +273,13 @@ export function Modal({
         </div>
 
         {/* Content */}
-        <div className="mb-6 text-fade-cream">
+        <div className="mb-6 text-tb-cream">
           {children}
         </div>
 
         {/* Footer */}
         {actions && (
-          <div className="border-t border-fade-gray-light pt-6">
+          <div className="border-t border-tb-gray-light pt-6">
             {actions}
           </div>
         )}
@@ -294,17 +294,17 @@ export function Modal({
 ```tsx
 export function HeroSection() {
   return (
-    <section className="bg-fade-black min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8">
+    <section className="bg-tb-black min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8">
       <div className="max-w-3xl w-full">
         {/* Headline */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-fade-cream font-display leading-tight mb-4">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-tb-cream font-display leading-tight mb-4">
           Real Cuts.
           <br />
           Real People.
         </h1>
 
         {/* Subheadline */}
-        <p className="text-lg sm:text-xl text-fade-gray-light mb-8 max-w-lg leading-relaxed">
+        <p className="text-lg sm:text-xl text-tb-gray-light mb-8 max-w-lg leading-relaxed">
           Walk in, get sharp. No appointments needed. Just the precision you deserve.
         </p>
 
@@ -456,7 +456,7 @@ export function Button() {
 
 ## Dark Mode (Primary)
 
-Since FADE operates in dark mode by default, structure your Tailwind theme accordingly:
+Since Talentos Black operates in dark mode by default, structure your Tailwind theme accordingly:
 
 ```ts
 const config: Config = {
@@ -464,9 +464,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        'fade-black': '#000000',
-        'fade-cream': '#F5F1E8',
-        'fade-red': '#E63946',
+        'tb-black': '#000000',
+        'tb-cream': '#F5F1E8',
+        'tb-red': '#E63946',
       },
     },
   },
@@ -483,7 +483,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className="bg-fade-black text-fade-cream">
+      <body className="bg-tb-black text-tb-cream">
         {children}
       </body>
     </html>
