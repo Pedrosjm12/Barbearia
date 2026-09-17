@@ -1,4 +1,4 @@
-# Quick Reference — FADE Design System
+# Quick Reference — Talentos Black Design System
 
 One-page cheat sheet for designers and developers.
 
@@ -74,7 +74,7 @@ Text: #000000 (Black)
 Padding: 12–16px vertical, 24–32px horizontal
 Font: 16px Bold (700)
 Border: None (square edges)
-States: Hover darker red, Focus red outline, Disabled gray
+States: Hover cream fill from bottom, Focus red outline, Disabled gray
 ```
 
 ### Input Field
@@ -151,7 +151,7 @@ Max 3 cards per row; reduce to 2 on tablet, 1 on mobile.
 | State | Background | Text | Border |
 |-------|-----------|------|--------|
 | Default | Red | Black | None |
-| Hover | #D62828 | Black | None |
+| Hover | Cream fill (from bottom) | Black | None |
 | Focus | Red | Black | Red outline +2px |
 | Active | #BF2D2D | Black | None |
 | Disabled | #E8E8E8 | Charcoal | None |
@@ -176,7 +176,7 @@ Max 3 cards per row; reduce to 2 on tablet, 1 on mobile.
 - **Error text**: "Check your email and try again" not "Error 400"
 
 ### Headings
-- **Case**: Sentence case ("The Best Haircuts in Brooklyn")
+- **Case**: Sentence case ("The Best Haircuts in Uberlândia")
 - **Avoid**: Single word emphasis, all caps labels
 - **Do**: Let size and weight carry emphasis
 
@@ -196,7 +196,7 @@ Max 3 cards per row; reduce to 2 on tablet, 1 on mobile.
 | Transition | 300ms | smooth | Color, opacity changes |
 | Load | 500ms | smooth | Page entrance sequence |
 
-**Principle**: One orchestrated moment per page (e.g., fade-in on load). No scatter effects.
+**Principle**: Only the three signature patterns — page curtain, button fill, image reveal/hover (DESIGN-TOKENS.md → Signature motion). No scatter effects.
 
 **Respect**: Always check `prefers-reduced-motion` and disable for users who prefer reduced motion.
 
@@ -220,7 +220,7 @@ Max 3 cards per row; reduce to 2 on tablet, 1 on mobile.
 
 ```tsx
 // Colors
-className="bg-fade-black text-fade-cream border-fade-red"
+className="bg-tb-black text-tb-cream border-tb-red"
 
 // Spacing
 className="p-lg gap-md mb-2xl px-4"
@@ -232,7 +232,7 @@ className="text-3xl font-black font-display leading-tight"
 className="text-lg sm:text-2xl md:text-4xl"
 
 // States
-className="hover:bg-fade-charcoal focus:outline-2 focus:outline-fade-red disabled:opacity-50"
+className="hover:bg-tb-charcoal focus:outline-2 focus:outline-tb-red disabled:opacity-50"
 
 // Grid
 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-lg"
@@ -286,7 +286,7 @@ docs/design/
 ### Implementing Focus States
 All interactive elements need:
 ```tsx
-focus:outline-2 focus:outline-offset-2 focus:outline-fade-red
+focus:outline-2 focus:outline-offset-2 focus:outline-tb-red
 ```
 
 ### Responsive Image

@@ -1,4 +1,4 @@
-# Design System Index — FADE Barbershop
+# Design System Index — Talentos Black Barbershop
 
 Complete navigation and overview of all design documentation.
 
@@ -31,7 +31,7 @@ Complete navigation and overview of all design documentation.
 | Item | Location | Notes |
 |------|----------|-------|
 | **Design Reference Image** | `./references/design-barbearia.webp` | Visual inspiration (hero, colors, typography) |
-| **Tailwind Config** | `../../tailwind.config.ts` | Project configuration with FADE tokens |
+| **Tailwind Config** | `../../tailwind.config.ts` | Project configuration with Talentos Black tokens |
 | **Global CSS** | `../../app/globals.css` | CSS variables and base styles |
 
 ---
@@ -257,7 +257,7 @@ A: No. The palette is intentional. If you think a new color is needed, propose i
 A: Only when it serves hierarchy or special treatment (like a badge or highlighted CTA). Check COMPONENTS.md or ask the design lead.
 
 **Q: Should I add animations?**  
-A: Sparingly. One orchestrated entrance per page. Hover/focus transitions are okay. Respect prefers-reduced-motion.
+A: Only the three signature patterns (page curtain, button fill, image reveal/hover) — see DESIGN-TOKENS.md. Respect prefers-reduced-motion.
 
 **Q: What if a component doesn't fit the spec?**  
 A: Propose an update to the spec. Document the new component in COMPONENTS.md. Get review from design lead.

@@ -1,4 +1,4 @@
-# Component Specifications — FADE Barbershop
+# Component Specifications — Talentos Black Barbershop
 
 All components follow the black, cream, red palette and clean geometric design language.
 
@@ -13,7 +13,7 @@ All components follow the black, cream, red palette and clean geometric design l
 - **Border Radius**: 0 (square)
 - **Min Width**: 120px
 - **States**:
-  - **Hover**: Darken red to `#D62828` (or shift hue slightly)
+  - **Hover**: "Button fill" — a cream (`#F5F1E8`) layer fills from the bottom, text stays black, label rolls up, arrow moves 4px right (see DESIGN-TOKENS.md → Signature motion)
   - **Focus**: Add 2px red outline, 2px offset
   - **Active**: Deeper red `#BF2D2D`
   - **Disabled**: Gray `#E8E8E8`, text `#2A2A2A`, no hover
@@ -25,7 +25,7 @@ All components follow the black, cream, red palette and clean geometric design l
 - **Padding**: 10px 20px
 - **Typography**: 16px Regular (400)
 - **States**:
-  - **Hover**: Background becomes transparent charcoal, border stays cream
+  - **Hover**: "Button fill" — a cream layer fills from the bottom and the text turns black; label rolls up
   - **Focus**: Red outline
   - **Active**: Red text
 

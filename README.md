@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Talentos Black
 
-## Getting Started
+Website for **Talentos Black**, a neighborhood barbershop in Uberlândia (MG). Built with Next.js 16 (App Router), React 19, TypeScript, and Tailwind CSS 4.
 
-First, run the development server:
+> For full architecture, folder structure, data model, and implementation status, see [`ARCHITECTURE.md`](./ARCHITECTURE.md) — the source of truth for how this project is put together.
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run start
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+No environment variables, database, or external services are required — this is currently a static frontend with simulated booking/payments (see `lib/payments.ts`).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Pages
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `/` — home (hero, destaques, galeria, agendamento, CTA)
+- `/sobre` — história da barbearia
+- `/menu` — cardápio de serviços por categoria
 
-## Learn More
+## Design system
 
-To learn more about Next.js, take a look at the following resources:
+All UI work must follow the design system documented in [`docs/design/`](./docs/design/) (start at `docs/design/README.md`). Never introduce a color, font, spacing value, or component pattern that isn't already documented there — extend the docs first, then the code.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Use the `design-enforcer` subagent (`.claude/agents/design-enforcer.md`) to audit or fix UI code against the design system:
+- "review" / "audit" → read-only compliance report
+- "review and fix" / "enforce" → audits **and** edits the code directly
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Important: this is not the Next.js you know
 
-## Deploy on Vercel
+This project pins Next.js/React/Tailwind versions newer than most model training data, with breaking API/convention changes. See [`AGENTS.md`](./AGENTS.md) before writing framework code — it points to `node_modules/next/dist/docs/` for the authoritative, version-matched docs.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Learn more
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)

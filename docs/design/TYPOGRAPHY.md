@@ -1,4 +1,4 @@
-# Typography — FADE Barbershop
+# Typography — Talentos Black Barbershop
 
 Type is the primary visual language. Choose typefaces that are modern, geometric, and slightly aggressive—matching the urban barbershop aesthetic.
 
@@ -66,8 +66,8 @@ Break lines intentionally; don't let paragraphs run the full container width.
 ### Headlines
 Never underline or italicize headlines. Let weight, size, and spacing do the work.
 
-Bad: "The **Best** Haircuts in Brooklyn"  
-Good: "The Best Haircuts in Brooklyn" (in bold 32px)
+Bad: "The **Best** Haircuts in Uberlândia"  
+Good: "The Best Haircuts in Uberlândia" (in bold 32px)
 
 ### Emphasis
 In body text, use **bold** (600 weight) for emphasis, never italics. Avoid coloring a single word unless it's part of a design element (like a service highlight in red).
@@ -77,7 +77,7 @@ Form labels are in 14px / 500 weight / sentence case:
 "Your full name" not "FULL NAME" or "Full Name"
 
 Service labels are in 14px / 700 weight / sentence case:  
-"Lineup with fade" not "LINEUP WITH FADE"
+"Lineup with fade" not "LINEUP WITH Talentos Black"
 
 ## Spacing
 
@@ -99,7 +99,7 @@ Never set line-height below 1.5 for body text.
 ### Hero Section
 ```
 XL Headline (48px, 900)
-"FADE Barbershop"
+"Talentos Black Barbershop"
 
 [1em space]
 

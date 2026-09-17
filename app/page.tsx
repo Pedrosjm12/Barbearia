@@ -1,69 +1,99 @@
-import Image from "next/image";
+import { Suspense } from "react";
+import { BookingWizard } from "@/components/booking/BookingWizard";
+import { Hero } from "@/components/home/Hero";
+import { ServiceCard } from "@/components/menu/ServiceCard";
+import { PageShell } from "@/components/transition/PageShell";
+import { ButtonLink } from "@/components/ui/Button";
+import { RevealImage } from "@/components/ui/RevealImage";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { destaques } from "@/data/menu";
+import { photos } from "@/data/photos";
+
+const galeria = [
+  { photo: photos.galeria1, alt: "Barbeiro acertando a barba com navalha e toalha", legenda: "Barba na navalha", span: "md:col-span-2 md:row-span-2" },
+  { photo: photos.galeria2, alt: "Corte com tesoura e pente", legenda: "Tesoura e pente", span: "" },
+  { photo: photos.galeria3, alt: "Barba sendo aparada com tesoura, em preto e branco", legenda: "Barba desenhada", span: "" },
+  { photo: photos.galeria4, alt: "Barbeiro finalizando corte na nuca", legenda: "Acabamento na nuca", span: "" },
+  { photo: photos.galeria5, alt: "Toalha quente sendo aplicada no rosto do cliente", legenda: "Toalha quente", span: "" },
+  { photo: photos.galeria6, alt: "Máquinas de corte organizadas na bancada", legenda: "Nossas ferramentas", span: "md:col-span-2" },
+];
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+    <PageShell>
+      <Hero />
+
+      {/* Em alta */}
+      <section aria-labelledby="em-alta" className="mx-auto max-w-6xl px-4 py-24 md:px-8">
+        <div className="flex flex-wrap items-end justify-between gap-8">
+          <SectionHeading
+            id="em-alta"
+            eyebrow="Em alta"
+              title="Os mais pedidos da cadeira"
+              intro="Os serviços que a vizinhança não larga. Escolha um e agende em menos de um minuto."
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          <ButtonLink href="/menu" variant="secondary" arrow>
+            Menu completo
+          </ButtonLink>
         </div>
-      </main>
-    </div>
+        <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {destaques.slice(0, 6).map((s) => (
+            <ServiceCard key={s.slug} servico={s} />
+          ))}
+        </div>
+      </section>
+
+      {/* Nosso trabalho */}
+      <section aria-labelledby="trabalho" className="bg-tb-charcoal/40 py-24">
+        <div className="mx-auto max-w-6xl px-4 md:px-8">
+          <SectionHeading id="trabalho" eyebrow="Nosso trabalho" title="Feito à mão, cadeira por cadeira" />
+          <ul className="mt-12 grid auto-rows-[240px] grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[200px] md:grid-cols-4">
+            {galeria.map((g) => (
+              <li key={g.legenda} className={`group relative ${g.span}`}>
+                <RevealImage photo={g.photo} alt={g.alt} sizes="(min-width: 768px) 50vw, 100vw" className="h-full" />
+                <p className="pointer-events-none absolute bottom-4 left-4 text-base font-bold transition-all duration-300 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+                  {g.legenda}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* Agendamento */}
+      <section id="agendar" aria-labelledby="titulo-agendar" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-24 md:px-8">
+        <SectionHeading
+            id="titulo-agendar"
+            eyebrow="Agendamento"
+            title="Reserve sua cadeira"
+            intro="Escolha o serviço, o dia e o horário. Pague agora pelo site ou na hora, como preferir."
+          />
+        <div className="mt-12">
+          <Suspense
+            fallback={<div role="status" aria-label="Carregando agendamento" className="h-[560px] animate-pulse bg-tb-charcoal" />}
+          >
+            <BookingWizard />
+          </Suspense>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="group relative overflow-hidden">
+        <div className="absolute inset-0">
+          <RevealImage photo={photos.ctaFundo} alt="" sizes="100vw" className="h-full" />
+        </div>
+        <div aria-hidden="true" className="absolute inset-0 bg-tb-black/60" />
+        <div className="relative mx-auto max-w-6xl px-4 py-24 md:px-8 md:py-32">
+          <SectionHeading
+            eyebrow="Primeira vez aqui?"
+            title="Conheça a história por trás da cadeira"
+            intro="De uma cadeira emprestada a referência no bairro. Tem muito talento nessa história."
+          />
+          <ButtonLink href="/sobre" className="mt-8" arrow>
+            Nossa história
+          </ButtonLink>
+        </div>
+      </section>
+    </PageShell>
   );
 }

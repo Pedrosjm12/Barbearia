@@ -1,12 +1,12 @@
-# Design System — FADE Barbershop
+# Design System — Talentos Black Barbershop
 
-Complete visual identity and component system for FADE Premium Barbershop.
+Complete visual identity and component system for Talentos Black Premium Barbershop.
 
 ---
 
 ## Overview
 
-This design system defines the visual language, component specifications, and implementation guidelines for FADE. The system is built on a deliberate, opinionated palette of black, cream, and red—reflecting the precision, urban aesthetic, and energy of the barbershop.
+This design system defines the visual language, component specifications, and implementation guidelines for Talentos Black. The system is built on a deliberate, opinionated palette of black, cream, and red—reflecting the precision, urban aesthetic, and energy of the barbershop.
 
 ### Quick Links
 
@@ -23,7 +23,7 @@ This design system defines the visual language, component specifications, and im
 
 ## The Brand
 
-**FADE** is a premium barbershop serving a clientele who value:
+**Talentos Black** is a premium barbershop serving a clientele who value:
 - **Precision**: Exact cuts, no compromise
 - **Urban aesthetic**: Modern, contemporary, city-focused
 - **Accessibility**: Walk-ins welcome, no gatekeeping
@@ -170,12 +170,12 @@ See [COMPONENTS.md](./COMPONENTS.md) for detailed specifications.
 
 ### Quick Start
 
-1. **Update Tailwind config** with FADE tokens:
+1. **Update Tailwind config** with Talentos Black tokens:
    ```ts
    colors: {
-     'fade-black': '#000000',
-     'fade-cream': '#F5F1E8',
-     'fade-red': '#E63946',
+     'tb-black': '#000000',
+     'tb-cream': '#F5F1E8',
+     'tb-red': '#E63946',
      // ...
    }
    ```
@@ -187,7 +187,7 @@ See [COMPONENTS.md](./COMPONENTS.md) for detailed specifications.
 
 3. **Use design tokens** consistently:
    ```tsx
-   <h1 className="text-3xl font-black text-fade-cream">Headline</h1>
+   <h1 className="text-3xl font-black text-tb-cream">Headline</h1>
    ```
 
 ### Languages & Tools
@@ -262,11 +262,11 @@ See [STYLE-GUIDE.md](./STYLE-GUIDE.md) for content standards.
 
 ### Primary CTA Section
 ```tsx
-<section className="bg-fade-black py-20">
-  <h2 className="text-5xl font-black text-fade-cream mb-4">
+<section className="bg-tb-black py-20">
+  <h2 className="text-5xl font-black text-tb-cream mb-4">
     Ready to Get Sharp?
   </h2>
-  <p className="text-xl text-fade-cream mb-8">
+  <p className="text-xl text-tb-cream mb-8">
     Walk in or book online. No appointments necessary.
   </p>
   <Button variant="primary">Book Your Cut</Button>
@@ -331,7 +331,7 @@ The system is designed to be extended thoughtfully. When adding new components o
 2. **Be deliberate**: Every choice should have a reason
 3. **Document**: Add to [COMPONENTS.md](./COMPONENTS.md)
 4. **Test**: Keyboard nav, screen readers, contrast
-5. **Review**: Does it feel like FADE?
+5. **Review**: Does it feel like Talentos Black?
 
 ---
 
@@ -363,6 +363,6 @@ This system is a living document. As the brand evolves:
 If a design decision isn't covered:
 1. Check the [STYLE-GUIDE.md](./STYLE-GUIDE.md) principles
 2. Refer to the [reference image](./references/design-barbearia.webp) for inspiration
-3. Ask: Does it follow the system? Is it accessible? Does it feel like FADE?
+3. Ask: Does it follow the system? Is it accessible? Does it feel like Talentos Black?
 
 If yes: go for it. If no: align with the system first.
