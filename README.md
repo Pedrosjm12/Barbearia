@@ -14,13 +14,14 @@ npm run start
 npm run lint
 ```
 
-No environment variables, database, or external services are required — this is currently a static frontend with simulated booking/payments (see `lib/payments.ts`).
+No environment variables, database, or external services are required — this is a static frontend with simulated booking (saved in `localStorage`) and no online payment.
 
 ## Pages
 
 - `/` — home (hero, destaques, galeria, agendamento, CTA)
 - `/sobre` — história da barbearia
 - `/menu` — cardápio de serviços por categoria
+- `/produtos` — produtos vendidos no balcão
 
 ## Design system
 

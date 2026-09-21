@@ -1,30 +1,62 @@
-name,category,price,isRecommended,description
-Classic Fade,Haircuts,$35,true,Crisp blending from top to fade with precision lineups. Our signature cut.
-High and Tight,Haircuts,$35,false,Short sides with length on top. Clean and professional.
-Textured Crop,Haircuts,$40,true,Modern textured cut with natural fade. Perfect for thick hair.
-Pompadour,Haircuts,$45,false,Voluminous top with tapered sides. Classic and timeless.
-Undercut,Haircuts,$40,false,Severe contrast between short sides and longer top.
-Buzz Cut,Haircuts,$25,false,All over short. Quick and clean.
-Beard Trim & Shape,Beard Trims,$25,true,Clean edges and defined lines with precision shaping.
-Full Beard Detail,Beard Trims,$35,false,Complete beard grooming with detail work and shaping.
-Beard Oil Treatment,Beard Trims,$15,false,Conditioning and softening treatment for healthy beards.
-Goatee Design,Beard Trims,$30,false,Specialized shaping and design for goatees.
-Classic Shave,Shaves,$30,true,Traditional straight razor shave with hot towel treatment.
-Hot Towel Shave,Shaves,$35,false,Luxe shave experience with hot towel and premium finish.
-Neck Shave Only,Shaves,$15,false,Clean neck area shave and detail.
-Lineup Only,Lineups,$15,false,Sharp edge work and detailing on existing cut.
-Lineup with Fade,Lineups,$40,true,Fresh lineup combined with a precision fade refresh.
-Design & Waves,Lineups,$30,false,Custom line designs and wave pattern work.
-Styling Add-On,Styling,$10,false,Professional product application and styling finish.
-Premium Styling,Styling,$20,false,Advanced styling with premium products and technique.
-Hair Wash & Dry,Styling,$15,false,Complete wash and blow-dry service.
-Eyebrow Trim,Add-ons,$10,false,Clean and shape eyebrows to frame the face.
-Ear & Nose Trim,Add-ons,$10,false,Precision trimming of unwanted hair.
-Hairline Detail,Add-ons,$15,true,Ultra-precise detail work for a sharp hairline.
-Scalp Treatment,Add-ons,$20,false,Therapeutic scalp massage and treatment.
-Beard Dye,Add-ons,$25,false,Professional beard coloring to match hair or preference.
-Hair Coloring,Add-ons,$45,false,Full hair color service with precision application.
-Head Massage,Add-ons,$15,false,Relaxing scalp and neck massage to relieve tension.
-Signature Package,Packages,$75,true,"Fade + Beard Trim + Styling + Head Massage. Best value."
-Executive Package,Packages,$95,false,"Full Shave + Premium Styling + Scalp Treatment. The ultimate experience."
-Quick Cut Package,Packages,$50,false,Haircut + Lineup + Styling. Fast and sharp.
+type,name,category,subcategory,price,isRecommended,description
+service,Militar (Buzz Cut),Haircuts,Short & Classic,$25,false,All over short with a single guard length. Practical and zero maintenance.
+service,Social,Haircuts,Short & Classic,$30,false,Uniform short sides with a slightly longer top combed to the side. The traditional corporate cut.
+service,Ivy League (Americano),Haircuts,Short & Classic,$30,false,Very short sides contrasting a fuller, more prominent top.
+service,Low Fade,Haircuts,Fade,$35,true,The fade starts low near the ear for a subtle, refined look.
+service,Mid Fade,Haircuts,Fade,$40,false,The fade starts mid-head, balancing contrast between sides and top.
+service,High Fade,Haircuts,Fade,$42,false,The fade is high, starting just above the temples for a bold, modern look.
+service,Pompadour,Haircuts,Volume & Quiff,$45,false,Long top with frontal volume combed up and back.
+service,Undercut,Haircuts,Volume & Quiff,$40,false,Very short or shaved sides with a sharp part against the longer top.
+service,Mohawk / Faux Hawk,Haircuts,Volume & Quiff,$45,false,Keeps a longer center strip of hair while the sides stay short or shaved.
+service,Textured Crop,Haircuts,Medium & Long,$40,true,Medium-length top with heavy texture and movement, usually paired with a fade.
+service,Long with Waves (Messy Waves),Haircuts,Medium & Long,$45,false,Loose, natural strands that show off extra length.
+service,Medium Layered Cut,Haircuts,Medium & Long,$40,false,Loose, natural, softly falling layers that flatter waves or curls.
+service,Stubble,Beard Trims,Stubble,$15,false,The short, sparse style that simulates a few days without shaving.
+service,Lined-Up Stubble,Beard Trims,Stubble,$18,false,Razor-sharp edges keep the short, natural stubble length looking crisp.
+service,Stubble with Light Fade,Beard Trims,Stubble,$20,false,Pairs the undone stubble look with a soft fade on the sides of the face.
+service,Short / Corporate Beard,Beard Trims,Short & Corporate,$25,true,Tightly trimmed and controlled hair, ideal for the professional environment.
+service,Lined-Up Short Beard,Beard Trims,Short & Corporate,$25,false,Razor-precise edges for a clean finish even at a few millimeters long.
+service,Short Beard with Defined Contour,Beard Trims,Short & Corporate,$27,false,Sharp, straight lines along the cheeks and neckline for a polished look.
+service,Full / Lumberjack Beard,Beard Trims,Full & Lumberjack,$35,false,Full coverage over cheeks, jaw and chin, requiring upkeep to keep it aligned.
+service,Voluminous Full Beard,Beard Trims,Full & Lumberjack,$38,false,Longer, looser hair kept minimally trimmed to preserve natural volume.
+service,Conditioned Full Beard,Beard Trims,Full & Lumberjack,$38,false,Complete oil and conditioning care for a soft, healthy-looking full beard.
+service,Low Beard Fade,Beard Trims,Beard Fade,$30,false,Starts short at the sideburns and gradually builds volume toward the jaw.
+service,Mid Beard Fade,Beard Trims,Beard Fade,$32,false,The fade starts at mid-height, balancing short and full sections of the beard.
+service,High Beard Fade,Beard Trims,Beard Fade,$35,false,A bold, high blend that echoes a high fade haircut.
+service,Goatee,Beard Trims,Goatee,$28,false,Focused only on the chin area, with or without a moustache.
+service,Connected Goatee,Beard Trims,Goatee,$29,false,The moustache joins the chin beard in one continuous line around the mouth.
+service,Thin Goatee,Beard Trims,Goatee,$28,false,A more discreet version with fine lines that subtly define the chin.
+service,Balbo,Beard Trims,Geometric & Sculpted,$30,false,Moustache separated from the chin by a strip of bare skin, with sharp razor-defined edges.
+service,Anchor Beard,Beard Trims,Geometric & Sculpted,$30,false,Follows the jawline down to the chin in a shape reminiscent of an anchor.
+service,Spartan Beard,Beard Trims,Geometric & Sculpted,$30,false,Bold, angular lines along the jaw for a sharp, precise finish.
+service,Classic Shave,Shaves,,$30,true,Traditional straight razor shave with hot towel treatment.
+service,Hot Towel Shave,Shaves,,$35,false,Luxe shave experience with hot towel and premium finish.
+service,Neck Shave Only,Shaves,,$15,false,Clean neck area shave and detail.
+service,Lineup Only,Lineups,,$15,false,Sharp edge work and detailing on existing cut.
+service,Lineup with Fade,Lineups,,$40,true,Fresh lineup combined with a precision fade refresh.
+service,Design & Waves,Lineups,,$30,false,Custom line designs and wave pattern work.
+service,Hairline Detail,Lineups,,$15,false,Ultra-precise detail work for a sharp hairline.
+service,Sideburn Lineup,Lineups,,$10,false,Precise sideburn adjustment to balance the rest of the cut.
+service,Lineup Touch-Up,Lineups,,$12,false,A quick maintenance touch-up on the lineup between full cuts.
+service,Styling Add-On,Styling,,$10,false,Professional product application and styling finish.
+service,Premium Styling,Styling,,$20,false,Advanced styling with premium products and technique.
+service,Hair Wash & Dry,Styling,,$15,false,Complete wash and blow-dry service.
+service,Ozone Steam Beard Therapy,Add-ons,Wellness & Relaxation,$20,false,The famous "smoke on the face." Hot steam opens pores, softens beard hair and cleanses skin before shaving.
+service,Facial or Scalp Massage,Add-ons,Wellness & Relaxation,$15,false,Manual or vibrating-tool massage on scalp, neck and face to relieve stress.
+service,Hot Towel,Add-ons,Wellness & Relaxation,$10,false,A heated towel with essential oils to open pores and relax facial muscles.
+service,Eyebrow Design & Cleanup,Add-ons,Skin Care,$10,false,Done with a razor, tweezers or threading to frame the eyes.
+service,Facial Exfoliation,Add-ons,Skin Care,$12,false,Removes dead skin cells and helps prevent ingrown beard hairs.
+service,Deep Skin Cleansing,Add-ons,Skin Care,$18,false,A deeper treatment to cleanse and care for facial skin.
+service,Hair or Beard Camouflage,Add-ons,Hair Aesthetics & Chemical,$25,false,A quick, discreet dye to disguise grey hairs without looking artificial.
+service,Platinum / Highlights,Add-ons,Hair Aesthetics & Chemical,$45,false,Global bleaching or aligned highlight processes.
+service,Relaxing / Thermal Sealant,Add-ons,Hair Aesthetics & Chemical,$35,false,Thermal treatments that reduce frizz and discipline the hair.
+service,Nose & Ear Waxing,Add-ons,Waxing & Hygiene,$10,false,Quick hair removal from these areas using warm wax.
+service,Face Threading,Add-ons,Waxing & Hygiene,$10,false,Removes hair at the root on the cheeks and forehead.
+service,Neck Hair Cleanup,Add-ons,Waxing & Hygiene,$8,false,Quick cleanup of neck hair for a crisper finish.
+service,Signature Package,Packages,,$75,true,"Fade + Beard Trim + Styling + Head Massage. Best value."
+service,Executive Package,Packages,,$95,false,"Full Shave + Premium Styling + Scalp Treatment. The ultimate experience."
+service,Quick Cut Package,Packages,,$50,false,Haircut + Lineup + Styling. Fast and sharp.
+product,Styling Pomade,Products,,$12,false,Strong hold with a matte finish. Ideal for finishing fades, crops and quiffs.
+product,Special Shampoo,Products,,$9,false,Deep cleansing without drying out the scalp. Made for frequent barbershop-goers.
+product,Refreshing Talc,Products,,$5,false,Instant freshness and oil control after a cut or a beard trim.
+product,Post-Shave Cream,Products,,$8,false,Hydrates and soothes the skin right after shaving, with a dry, non-greasy finish.

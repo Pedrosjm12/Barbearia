@@ -85,13 +85,25 @@ All components follow the black, cream, red palette and clean geometric design l
 - **Layout**:
   ```
   [Service Icon / Image]
-  [Service Name — M Headline, 24px Bold]
+  [Service Name — M Headline, 24px Bold]     [Price — Right aligned, mono]
   [Description — Body Small, 14px, light gray]
-  [Price or CTA — Right aligned]
+  [Duration — Caption, 12px, light gray]
   ```
+- Informational only — no per-item booking CTA. Booking happens through the shared booking flow, not from the card.
 - **States**:
   - **Hover**: Subtle lift (shadow increases), no color change
   - **Active**: Red accent line on left edge (4px)
+
+### Product Card
+- Same visual pattern as Service Card (background, padding, shadow, states), used for retail products (pomades, shampoos, talcs, creams) sold at the counter — not bookable.
+- **Layout**:
+  ```
+  [Product Image]
+  [Product Name — M Headline, 24px Bold]
+  [Description — Body Small, 14px, light gray]
+  [Price — Right aligned, mono]
+  ```
+- No duration, no destaque badge, no CTA link — informational only (products are bought in person, not booked online).
 
 ### Booking Card / Hero Card
 - **Background**: Black (`#000000`)

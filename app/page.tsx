@@ -66,7 +66,7 @@ export default function Home() {
             id="titulo-agendar"
             eyebrow="Agendamento"
             title="Reserve sua cadeira"
-            intro="Escolha o serviço, o dia e o horário. Pague agora pelo site ou na hora, como preferir."
+            intro="Escolha o barbeiro, o dia e o horário. O serviço você combina com a gente na cadeira."
           />
         <div className="mt-12">
           <Suspense
