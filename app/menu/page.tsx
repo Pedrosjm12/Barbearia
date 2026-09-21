@@ -16,7 +16,7 @@ export default function MenuPage() {
           as="h1"
           eyebrow="Menu"
           title="Tudo o que a gente faz na cadeira"
-          intro="Do degradê ao barbear na navalha. Escolha uma categoria, veja os detalhes e agende direto pelo card."
+          intro="Do degradê ao barbear na navalha. Escolha uma categoria e veja os detalhes — o serviço final é combinado com o barbeiro na cadeira."
         />
         <div className="mt-12">
           <MenuBrowser />

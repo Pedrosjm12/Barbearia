@@ -2,11 +2,12 @@
 
 # Talentos Black — project pointers
 
-- Full architecture, stack, folder structure, data model, and implementation status: `ARCHITECTURE.md`. Read it before non-trivial changes.
-- Design system (source of truth for all UI work): `docs/design/`, start at `docs/design/README.md`. Never introduce a color, font, spacing value, or component pattern not already documented there — extend the docs first, then the code.
-- Use the `design-enforcer` subagent (`.claude/agents/design-enforcer.md`) after any frontend change:
-  - "review" / "audit" → read-only compliance report
-  - "review and fix" / "enforce" → audits and edits the code directly
-- Tailwind 4 is CSS-first: tokens live in the `@theme` block of `app/globals.css` (`tb-*` utilities). There is no `tailwind.config.ts` — don't recreate one without checking `ARCHITECTURE.md` §6 first.
-- Menu/pricing data: `data/menu.ts` (translated from `docs/menu-items.csv`, BRL prices are placeholders). Booking: `components/booking/BookingWizard.tsx`, state simulated via `data/agenda.ts` and `localStorage`. Payments: `lib/payments.ts` is a mock provider — not wired to a real processor.
-- Placeholder content still in place: address, WhatsApp number, barber names, and the `/sobre` story are fictional.
+- Arquitetura, stack, estrutura de pastas, dados e funcionalidades: `ARCHITECTURE.md`. Leia antes de mudanças não triviais.
+- Design system (fonte de verdade da UI): `docs/design/`, comece em `docs/design/README.md`. Nunca introduza cor, fonte, espaçamento ou padrão de componente que não esteja documentado — estenda a doc primeiro, depois o código.
+- Use o subagent `design-enforcer` (`.claude/agents/design-enforcer.md`) após qualquer mudança de frontend:
+  - "review" / "audit" → relatório somente leitura
+  - "review and fix" / "enforce" → audita e edita o código
+- Tailwind 4 é CSS-first: tokens no bloco `@theme` de `app/globals.css` (utilitários `tb-*`). Não existe `tailwind.config.ts` — não recrie.
+- Dados: `data/menu.ts` e `data/products.ts` (traduzidos de `docs/menu-items.csv`; preços em BRL são sugestões), `data/agenda.ts` (barbeiros, horários, endereço), `data/photos.ts` (fotos). Imagens são locais em `public/images/` (WebP).
+- Agendamento: `components/booking/BookingWizard.tsx`, salvo só em `localStorage`. Não há pagamento online nem backend.
+- Conteúdo fictício: endereço, WhatsApp, nomes dos barbeiros, história em `/sobre` e preços.

@@ -1,150 +1,92 @@
 # Architecture — Talentos Black Barbershop
 
-Reference document for how this project is put together: stack, structure, data, conventions, and current implementation state. Read this before making changes, especially after time away from the project.
+Como o projeto está montado: stack, estrutura, dados, convenções e estado atual. Leia antes de mudanças não triviais.
+
+Site da **Talentos Black**, barbearia de bairro em Uberlândia (MG). Repositório: [Pedrosjm12/Barbearia](https://github.com/Pedrosjm12/Barbearia). O sistema visual (cores, tipografia) vem do mockup `docs/design/references/design-barbearia.webp` e está especificado em `docs/design/`.
 
 ---
 
-## 1. What this project is
+## 1. Stack
 
-A website for **Talentos Black**, a neighborhood barbershop in Uberlândia (MG). The brand was renamed from the original "FADE" placeholder on 2026-09-16; the visual system (colors, type) was kept. Repository: [Pedrosjm12/Barbearia](https://github.com/Pedrosjm12/Barbearia). It was split out of a personal monorepo (`Pedrosjm12/Projetos`) into its own repository on 2026-09-16, following the same pattern used for the `Marcenaria` project.
-
-The visual identity is defined by a reference mockup (`docs/design/references/design-barbearia.webp`) and fully specified in `docs/design/`. **The design system documentation is more complete than the actual app code right now** — see [§5 Implementation status](#5-implementation-status) before assuming anything in `app/` reflects the brand.
-
----
-
-## 2. Tech stack
-
-| Layer | Choice | Notes |
+| Camada | Escolha | Notas |
 |---|---|---|
-| Framework | **Next.js 16.3.5** (App Router) | Pinned to a version newer than the model's training data — see `AGENTS.md` below |
-| UI library | **React 19.2.8** | |
-| Language | **TypeScript 5** (strict mode) | `tsconfig.json` uses `strict: true`, path alias `@/*` → repo root |
-| Styling | **Tailwind CSS 4** via `@tailwindcss/postcss` | CSS-first config (`@theme` in `app/globals.css`), **not** the classic JS-config model — see the warning in §6 |
-| Linting | ESLint 9, flat config (`eslint.config.mjs`), `eslint-config-next` | |
-| Package manager | npm (`package-lock.json` present) | |
+| Framework | **Next.js 16.3.5** (App Router) | Versão com breaking changes — ver `AGENTS.md` |
+| UI | **React 19.2.8** | Usa `<ViewTransition>` para transição de páginas |
+| Linguagem | **TypeScript 5** (strict) | Alias `@/*` → raiz do repo |
+| Estilo | **Tailwind CSS 4** (`@tailwindcss/postcss`) | CSS-first: tokens no `@theme` de `app/globals.css` (utilitários `tb-*`). Não há `tailwind.config.ts` |
+| Lint | ESLint 9 (flat config) + `eslint-config-next` | |
+| Pacotes | npm | |
 
-### ⚠️ Read this before writing Next.js/Tailwind code
-
-`AGENTS.md` (imported by `CLAUDE.md`) states this Next.js version has **breaking changes vs. training data** and instructs reading `node_modules/next/dist/docs/` before writing code, because APIs/conventions may differ from what's expected. This applies equally to Tailwind 4, which changed its configuration model substantially from v3 (see §6). Don't assume v3-era Tailwind or pre-16 Next.js patterns are correct here without checking.
+Sem variáveis de ambiente, banco de dados ou serviços externos: é um frontend estático.
 
 ---
 
-## 3. Folder structure
+## 2. Estrutura
 
 ```
 barbearia/
-├── .claude/
-│   └── agents/
-│       └── design-enforcer.md      # Subagent: audits code against docs/design/
-├── app/                             # Next.js App Router
-│   ├── layout.tsx                   # Root layout — currently default create-next-app boilerplate
-│   ├── page.tsx                     # Home page — currently default create-next-app boilerplate
-│   ├── globals.css                  # Tailwind entry + FADE design tokens as CSS variables
-│   └── favicon.ico
+├── .claude/agents/design-enforcer.md  # Subagent que audita o código contra docs/design/
+├── app/
+│   ├── layout.tsx        # Inter + JetBrains Mono, lang="pt-BR", Header/Footer, linha "cortina" vermelha
+│   ├── globals.css       # Tailwind + tokens (@theme) + CSS das view transitions
+│   ├── page.tsx          # Home: hero, em alta, galeria, agendamento, CTA
+│   ├── sobre/page.tsx    # História da barbearia
+│   ├── menu/page.tsx     # Serviços por categoria/subcategoria
+│   └── produtos/page.tsx # Produtos vendidos no balcão
+├── components/
+│   ├── booking/BookingWizard.tsx  # Agendamento
+│   ├── home/Hero.tsx
+│   ├── layout/{Header,Footer}.tsx
+│   ├── menu/{MenuBrowser,ServiceCard}.tsx
+│   ├── produtos/ProductCard.tsx
+│   ├── transition/PageShell.tsx   # Wrapper <ViewTransition> (envolva cada página, não o layout)
+│   └── ui/{Button,RevealImage,SectionHeading}.tsx
+├── data/
+│   ├── menu.ts       # Serviços, categorias, subcategorias, formatPreco
+│   ├── products.ts   # Produtos de balcão
+│   ├── agenda.ts     # Barbeiros, dias/horários de funcionamento, endereço, WhatsApp
+│   └── photos.ts     # Mapa de fotos (Unsplash) por item, com créditos
 ├── docs/
-│   ├── design/                      # THE design system — source of truth for all UI work
-│   │   ├── README.md                # Start here: system overview & navigation
-│   │   ├── INDEX.md                 # Full documentation map, "I need to..." task index
-│   │   ├── QUICK-REFERENCE.md       # One-page cheat sheet (tokens, states, checklist)
-│   │   ├── STYLE-GUIDE.md           # Brand identity, voice, content/copy standards
-│   │   ├── COLOR-PALETTE.md         # The 5 approved colors + usage rules
-│   │   ├── TYPOGRAPHY.md            # Type scale, families (Inter / JetBrains Mono), hierarchy
-│   │   ├── DESIGN-TOKENS.md         # Canonical token values (spacing, shadow, radius, motion)
-│   │   ├── COMPONENTS.md            # Per-component specs (Button, Input, Card, Modal, ...)
-│   │   ├── PAGE-PATTERNS.md         # Section/page layout patterns (Hero, Services, CTA, Footer...)
-│   │   ├── IMPLEMENTATION.md        # Tailwind config + React code examples for every component
-│   │   └── references/
-│   │       └── design-barbearia.webp # Original visual reference mockup
-│   └── menu-items.csv               # Barbershop services menu (see §4)
-├── public/                          # Static assets (currently just default Next.js SVGs — placeholders)
-├── tailwind.config.ts                # ⚠️ See §6 — may be redundant/inert under Tailwind 4
-├── next.config.ts                    # Empty/default — no custom Next.js config yet
-├── tsconfig.json
-├── eslint.config.mjs
-├── postcss.config.mjs
-├── package.json
-├── AGENTS.md                         # Repo-level agent instructions (imported by CLAUDE.md)
-├── CLAUDE.md                         # `@AGENTS.md` — Claude Code entry point
-└── README.md                         # Default create-next-app README — not yet project-specific
+│   ├── design/       # Design system (fonte de verdade da UI) — comece em README.md
+│   └── menu-items.csv # Cardápio original (EN/USD) que originou data/menu.ts e data/products.ts
+└── public/images/    # Fotos em WebP servidas localmente
 ```
 
-There is **no `components/` directory yet**. `docs/design/COMPONENTS.md` and `docs/design/IMPLEMENTATION.md` describe a full component set (Button, Input, Card, Modal, ServiceCard, etc.) that has been **designed but not built**.
+---
+
+## 3. Dados
+
+- **`data/menu.ts`** — traduzido de `docs/menu-items.csv` para PT-BR/BRL. **Preços são sugestões a confirmar.** Cortes, barba e adicionais são agrupados em `subcategorias`; `destaque` alimenta a seção "em alta" da home.
+- **`data/products.ts`** — pomadas, shampoos, talcos e cremes. Vendidos só presencialmente; sem compra online.
+- **`docs/menu-items.csv`** — não é lido pelo código; os arquivos `data/*.ts` são escritos à mão a partir dele. Ao mudar o cardápio, atualize os dois.
+- **Imagens** — escolhidas item a item em `data/photos.ts` (licença Unsplash, créditos no rodapé), baixadas e convertidas para WebP em `public/images/` (skill `baixar-imagem-webp`). `next.config.ts` está vazio: não há hosts remotos de imagem.
 
 ---
 
-## 4. Data: the services menu
+## 4. Funcionalidades
 
-`docs/menu-items.csv` is the source of truth for what FADE sells. It is a flat CSV, not yet wired into any code (no fetch/import of it exists in `app/`).
+- **Navegação**: Início, Sobre, Menu, Produtos (header responsivo com menu mobile).
+- **Menu de serviços**: filtro por categoria, agrupamento por subcategoria, cards com foto, preço e selo de recomendação.
+- **Produtos**: listagem de itens de balcão.
+- **Agendamento** (`BookingWizard`): 2 etapas (barbeiro/dia/horário → dados do cliente) + confirmação. Sem escolha de serviço (o cliente define com o barbeiro na cadeira) e sem pagamento (feito no local). Agendamentos ficam apenas em `localStorage` (`tb-agendamentos`); a ocupação de horários é simulada por `data/agenda.ts`.
+- **Transições de página**: `<ViewTransition>` + CSS "cortina" em `globals.css`.
 
-**Schema:**
+### Placeholders (fictícios)
 
-| Column | Type | Notes |
-|---|---|---|
-| `name` | string | Service name |
-| `category` | string | One of: `Haircuts`, `Beard Trims`, `Shaves`, `Lineups`, `Styling`, `Add-ons`, `Packages` |
-| `price` | string (`"$NN"`) | Formatted with `$` prefix; parse before doing math |
-| `isRecommended` | `"true"` \| `"false"` | Drives the "house recommendation" badge described in the original request |
-| `description` | string | May contain commas — the `Signature Package` and `Executive Package` rows are quoted for this reason; use a real CSV parser, not `split(',')` |
-
-30 rows across 7 categories, prices from $10–$95. When this becomes a real feature, it will likely be read at build time (e.g. via a small server-side CSV parser or converted to JSON/a Next.js data file) and rendered through the `ServiceCard` / pricing patterns already specified in `docs/design/PAGE-PATTERNS.md`.
+Endereço, WhatsApp, nomes dos barbeiros, história em `/sobre` e preços.
 
 ---
 
-## 5. Implementation status
+## 5. Convenções
 
-| Area | Status |
-|---|---|
-| Design system docs | ✅ Rebranded to Talentos Black; PT-BR locale and the three "signature motion" patterns added (DESIGN-TOKENS.md) |
-| Tokens | ✅ Only in `app/globals.css` (`@theme`, `tb-*` colors). `tailwind.config.ts` was removed (it was inert under Tailwind 4) |
-| Layout | ✅ `app/layout.tsx`: Inter + JetBrains Mono, `lang="pt-BR"`, Header/Footer, red curtain-line element |
-| Pages | ✅ `/` (hero, em alta, galeria, agendamento, CTA), `/sobre` (história), `/menu` (29 serviços por categoria) |
-| Page transitions | ✅ React `<ViewTransition>` via `components/transition/PageShell.tsx` (wrap each page, not the layout) + CSS in `globals.css` |
-| Menu data | ✅ `data/menu.ts`, translated from `docs/menu-items.csv` — **suggested BRL prices, to be confirmed** |
-| Images | ✅ Unsplash (free license), hand-picked per item in `data/photos.ts`; credits in the footer; `images.unsplash.com` allowed in `next.config.ts` |
-| Booking | ✅ `components/booking/BookingWizard.tsx` — 4 steps, occupied slots simulated (`data/agenda.ts`), saved to `localStorage` only |
-| Payments | ⚠️ **Simulated** (`lib/payments.ts`, `mockProvider`). Implement `PaymentProvider` server-side (Mercado Pago/Stripe) to charge for real. Card numbers ending in 0000 simulate a decline |
-| Placeholder content | ⚠️ Address, WhatsApp, barber names and the `/sobre` story are fictional placeholders |
-
-## 6. Resolved: Tailwind 4 config duplication
-
-> **Resolved on 2026-09-16:** `tailwind.config.ts` was deleted and all tokens now live in the `@theme` block of `app/globals.css` (utilities are `bg-tb-black`, `text-tb-cream`, etc.). The notes below are kept for history.
-
-Two things used to define the same tokens in two different places:
-
-1. `tailwind.config.ts` — classic `theme.extend.colors` / `spacing` / etc. (v3-style JS config)
-2. `app/globals.css` — `@theme inline { ... }` block plus a separate `:root { ... }` block, both redefining the same colors/spacing as CSS custom properties
-
-Tailwind CSS 4's primary configuration path is CSS-first (`@theme` in the CSS entry file); a `tailwind.config.ts` is only picked up if explicitly referenced via `@config` in CSS, which **does not currently exist** in `app/globals.css`. That means `tailwind.config.ts` may not be doing anything right now, and the `fade-*` utility classes it defines (`bg-fade-black`, `text-fade-cream`, etc. — used throughout `docs/design/IMPLEMENTATION.md` code samples) may not actually be generated.
-
-**Before building real components**, verify (via `node_modules/next/dist/docs/` and the installed Tailwind version's own docs, per the `AGENTS.md` instruction) whether:
-- `tailwind.config.ts` needs a `@config "../tailwind.config.ts";` line in `globals.css` to take effect, or
-- the config should be fully migrated into the `@theme inline` block in `globals.css` and `tailwind.config.ts` deleted, or
-- the current split is intentional and works as-is (test by using a `bg-fade-red` class in a component and checking it renders).
-
-This is exactly the kind of gap `design-enforcer` and a general code review should catch once real UI code exists.
+- **Design**: nunca introduza cor, fonte, espaçamento ou padrão de componente que não esteja em `docs/design/` — estenda a doc primeiro. Dark mode é a apresentação principal da marca.
+- **design-enforcer**: rode após mudanças de frontend. "review"/"audit" = relatório somente leitura; "review and fix"/"enforce" = audita e edita.
+- **Copy**: PT-BR, sentence case, voz ativa (`docs/design/STYLE-GUIDE.md`).
+- **Commits**: prefixos convencionais (`feat:`, `docs:`, `chore:`), mensagens em português. O trailer de atribuição segue o que a sessão atual especificar.
 
 ---
 
-## 7. Conventions
-
-### Commits
-- Conventional-ish prefixes seen in history: `feat(scope): ...`, `chore: ...`, `test(scope): ...`
-- Portuguese is used for some commit bodies/descriptions, English for others — no strict rule enforced, follow the tone of nearby recent commits
-- Attribution trailer is dictated per-session by the environment's system reminder (currently `Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>`) — always use whatever the active session specifies, not a hardcoded value copied from an old commit
-
-### Design work
-- **Never** introduce a color, font, spacing value, or component pattern not already in `docs/design/`. Extend the docs first, then the code.
-- Use the `design-enforcer` subagent (`.claude/agents/design-enforcer.md`) to audit UI changes:
-  - "review" / "audit" → read-only compliance report
-  - "review and fix" / "enforce" → audits **and** edits the code directly
-- Dark mode is the default and primary brand presentation (not an alternate theme) — see `docs/design/COLOR-PALETTE.md`.
-
-### Content/copy
-- Sentence case, active voice, specific and benefit-focused — full rules in `docs/design/STYLE-GUIDE.md#content-standards`.
-
----
-
-## 8. Running the project
+## 6. Rodando
 
 ```bash
 npm install
@@ -154,22 +96,6 @@ npm run start
 npm run lint
 ```
 
-No environment variables, database, or external services are configured yet — this is a static frontend at this stage.
-
 ---
 
-## 9. Suggested next steps
-
-Roughly in order of dependency:
-
-1. **Resolve the Tailwind config question** (§6) — confirm `fade-*` utilities actually compile before building on top of them.
-2. **Rebuild `app/layout.tsx`**: swap Geist for Inter/JetBrains Mono (`docs/design/TYPOGRAPHY.md`), set real metadata (title/description for FADE), apply dark-mode-by-default html/body per `docs/design/COLOR-PALETTE.md`.
-3. **Build the core component set** in a new `components/` directory per `docs/design/COMPONENTS.md` + the code samples in `docs/design/IMPLEMENTATION.md`: `Button`, `Input`, `ServiceCard`, `Modal` at minimum.
-4. **Wire up `docs/menu-items.csv`**: parse it (server-side, build-time) and render it through the Services/Pricing patterns in `docs/design/PAGE-PATTERNS.md`, using the `isRecommended` flag for the house-recommendation badge.
-5. **Rebuild `app/page.tsx`** as a real homepage: Hero → Services → Testimonials → Pricing → CTA → Contact/Hours → Footer, per `docs/design/PAGE-PATTERNS.md`.
-6. **Run `design-enforcer` in review-and-fix mode** once real UI exists, to catch drift from the spec early.
-7. Only after the above: booking form / backend, if the project scope grows that direction.
-
----
-
-*Last updated: 2026-09-16. Keep this file in sync when the implementation status in §5 changes — it's meant to always reflect reality, not the original plan.*
+*Última atualização: 2026-09-21. Mantenha em sincronia com o código.*
