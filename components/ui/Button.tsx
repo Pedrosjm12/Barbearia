@@ -2,9 +2,16 @@ import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
 
 type Variant = "primary" | "secondary";
+type Size = "md" | "sm";
 
 const base =
-  "btn-fill inline-flex min-w-[120px] items-center justify-center gap-2 px-6 py-3 text-base transition-colors duration-300 disabled:pointer-events-none disabled:bg-tb-gray-light disabled:text-tb-charcoal";
+  "btn-fill inline-flex items-center justify-center gap-2 transition-colors duration-300 disabled:pointer-events-none disabled:bg-tb-gray-light disabled:text-tb-charcoal";
+
+const sizes: Record<Size, string> = {
+  md: "min-w-[120px] px-6 py-3 text-base",
+  // Compacto (chips de sugestão); min-h-11 mantém o alvo de toque de 44px
+  sm: "min-h-11 px-3 py-2 text-sm",
+};
 
 const variants: Record<Variant, string> = {
   primary: "bg-tb-red font-bold text-tb-black active:bg-tb-red-active",
@@ -27,17 +34,18 @@ function Label({ children, arrow }: { children: ReactNode; arrow?: boolean }) {
   );
 }
 
-type Common = { variant?: Variant; arrow?: boolean; className?: string; children: ReactNode };
+type Common = { variant?: Variant; size?: Size; arrow?: boolean; className?: string; children: ReactNode };
 
 export function ButtonLink({
   variant = "primary",
+  size = "md",
   arrow,
   className = "",
   children,
   ...props
 }: Common & Omit<ComponentProps<typeof Link>, "className" | "children">) {
   return (
-    <Link className={`${base} ${variants[variant]} ${className}`} {...props}>
+    <Link className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...props}>
       <Label arrow={arrow}>{children}</Label>
     </Link>
   );
@@ -45,13 +53,14 @@ export function ButtonLink({
 
 export function Button({
   variant = "primary",
+  size = "md",
   arrow,
   className = "",
   children,
   ...props
 }: Common & Omit<ComponentProps<"button">, "className" | "children">) {
   return (
-    <button className={`${base} ${variants[variant]} ${className}`} {...props}>
+    <button className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...props}>
       <Label arrow={arrow}>{children}</Label>
     </button>
   );

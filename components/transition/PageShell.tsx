@@ -7,7 +7,7 @@ import { ViewTransition, type ReactNode } from "react";
  */
 export function PageShell({ children }: { children: ReactNode }) {
   return (
-    <ViewTransition enter="page-curtain" exit="page-curtain" default="none">
+    <ViewTransition enter="curtain-in" exit="curtain-out" default="none">
       <main id="conteudo" className="flex-1">
         {children}
       </main>

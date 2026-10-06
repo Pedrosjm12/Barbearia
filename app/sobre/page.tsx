@@ -4,45 +4,12 @@ import { ButtonLink } from "@/components/ui/Button";
 import { RevealImage } from "@/components/ui/RevealImage";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { photos } from "@/data/photos";
+import { capitulos, citacao, valores } from "@/data/sobre";
 
 export const metadata: Metadata = {
   title: "Nossa história",
   description: "Da cadeira emprestada na garagem à barbearia de referência no bairro, em Uberlândia.",
 };
-
-// Texto de exemplo: revise com a história real da barbearia antes de publicar.
-const capitulos = [
-  {
-    ano: "2012",
-    titulo: "Uma cadeira emprestada",
-    texto:
-      "Tudo começou na garagem da casa da dona Cida, mãe do Marcão. Uma cadeira de barbeiro emprestada, uma máquina usada e a vontade de fazer o corte que ninguém no bairro fazia. Os primeiros clientes foram os amigos da rua, e eles não pagavam com dinheiro. Pagavam contando pra todo mundo.",
-    photo: photos.sobreGaragem,
-    alt: "Barbearia simples com uma cadeira antiga, em preto e branco",
-  },
-  {
-    ano: "2016",
-    titulo: "Porta aberta para o bairro",
-    texto:
-      "A fila na calçada virou motivo de conversa, e chegou a hora de ter um endereço próprio. Duas cadeiras vermelhas, um espelho grande e um nome que dizia tudo: Talentos Black. Mais que um lugar para cortar cabelo, virou ponto de encontro para falar de futebol, música e da vida.",
-    photo: photos.sobrePrimeiroPonto,
-    alt: "Duas cadeiras de barbeiro vermelhas em frente ao espelho",
-  },
-  {
-    ano: "Hoje",
-    titulo: "A casa de sempre, maior",
-    texto:
-      "Hoje somos uma equipe de barbeiros formados aqui dentro, referência em degradê e barba em Uberlândia. Crescemos, mas o café continua passado na hora e o cliente continua sendo chamado pelo nome.",
-    photo: photos.sobreHoje,
-    alt: "Cadeira de barbeiro clássica em um salão decorado com quadros",
-  },
-];
-
-const valores = [
-  { titulo: "Capricho", texto: "Cada detalhe conta. Só sai da cadeira quando está do jeito que você pediu." },
-  { titulo: "Acolhimento", texto: "Aqui todo mundo é recebido como vizinho, da primeira à centésima visita." },
-  { titulo: "Talento local", texto: "Formamos barbeiros do próprio bairro e damos a eles uma profissão." },
-];
 
 export default function SobrePage() {
   return (
@@ -88,9 +55,9 @@ export default function SobrePage() {
       <section className="border-y border-tb-cream/10 bg-tb-charcoal/40">
         <figure className="mx-auto max-w-4xl px-4 py-24 text-center md:px-8">
           <blockquote className="text-2xl leading-[1.3] font-bold md:text-[32px] md:leading-[1.2]">
-            “A gente não corta só cabelo. A gente devolve a confiança de quem se olha no espelho.”
+            “{citacao.texto}”
           </blockquote>
-          <figcaption className="mt-6 font-mono text-sm text-tb-cream/60">Marcão, fundador</figcaption>
+          <figcaption className="mt-6 font-mono text-sm text-tb-cream/60">{citacao.autor}</figcaption>
         </figure>
       </section>
 

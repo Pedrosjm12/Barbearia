@@ -47,10 +47,13 @@ body {
 }
 
 /* ---------- Button fill ---------- */
-.btn-fill {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
+/* Em @layer components para que utilitários do Tailwind (ex.: `fixed` no botão do chat) vençam o `relative`. */
+@layer components {
+  .btn-fill {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
 }
 .btn-fill::before {
   content: "";
@@ -139,6 +142,11 @@ body {
 .hero-zoom {
   animation: hero-zoom 1600ms var(--ease-out-soft) both;
 }
+/* Ao chegar pela cortina, a entrada do hero só começa quando ela termina (evita repintar o snapshot). */
+:root:active-view-transition .hero-rise,
+:root:active-view-transition .hero-zoom {
+  animation-play-state: paused;
+}
 @keyframes hero-rise {
   from {
     opacity: 0;
@@ -155,25 +163,50 @@ body {
 ::view-transition {
   pointer-events: none;
 }
-::view-transition-old(.page-curtain) {
+/*
+ * Só transform/translate/opacity: rodam no compositor, sem repintar os snapshots
+ * (que têm a altura da página inteira) a cada quadro. clip-path e filter
+ * forçavam repintura no thread principal e causavam os engasgos.
+ */
+::view-transition-old(.curtain-out) {
   animation: curtain-out var(--duration-curtain) var(--ease-curtain) both;
-}
-::view-transition-new(.page-curtain) {
-  animation: curtain-in var(--duration-curtain) var(--ease-curtain) both;
-  z-index: 1;
 }
 @keyframes curtain-out {
   to {
     transform: translateY(-48px);
-    filter: brightness(0.4);
+    /* Sobre o fundo preto, opacidade 0.4 equivale ao antigo brightness(0.4). */
+    opacity: 0.4;
   }
+}
+/*
+ * Wipe de baixo para cima sem clip-path: o grupo recorta (overflow: clip) e sobe
+ * da base da tela, enquanto a imagem desce na mesma medida e fica parada na tela.
+ * Usa `translate` porque o navegador já posiciona o grupo com `transform`.
+ */
+::view-transition-group(.curtain-in) {
+  overflow: clip;
+  /* O <main> é transparente: sem fundo, a página antiga apareceria por trás da nova. */
+  background: var(--color-tb-black);
+  animation: curtain-in var(--duration-curtain) var(--ease-curtain) both;
+  z-index: 1;
+}
+::view-transition-new(.curtain-in) {
+  animation: curtain-in-hold var(--duration-curtain) var(--ease-curtain) both;
 }
 @keyframes curtain-in {
   from {
-    clip-path: inset(100% 0 0 0);
+    translate: 0 100vh;
   }
   to {
-    clip-path: inset(0 0 0 0);
+    translate: 0 0;
+  }
+}
+@keyframes curtain-in-hold {
+  from {
+    translate: 0 -100vh;
+  }
+  to {
+    translate: 0 0;
   }
 }
 /* Red line riding the curtain's leading edge */
@@ -208,6 +241,39 @@ body {
   display: none;
 }
 ::view-transition-new(site-header) {
+  animation: none;
+}
+
+/*
+ * O chat sai de cena durante a cortina e volta quando ela termina. A conversa não
+ * se perde: o ChatWidget vive no layout, que não remonta ao trocar de página.
+ * Precisa de nome próprio; sem ele, entraria no snapshot da raiz e apareceria
+ * picotado por baixo da página antiga e da nova.
+ */
+::view-transition-group(chat-widget) {
+  animation: none;
+  z-index: 90;
+}
+::view-transition-old(chat-widget) {
+  display: none;
+}
+::view-transition-new(chat-widget) {
+  animation: chat-return var(--duration-curtain) linear both;
+}
+@keyframes chat-return {
+  0%,
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* Sem o cross-fade padrão da página inteira: só a cortina anima. */
+::view-transition-old(root) {
+  display: none;
+}
+::view-transition-new(root) {
   animation: none;
 }
 

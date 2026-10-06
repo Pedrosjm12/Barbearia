@@ -25,8 +25,11 @@ export function RevealImage({ photo, alt, sizes, className = "", hover = true, p
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setVisible(true);
           io.disconnect();
+          // Revelar durante a cortina repintaria o snapshot da página nova a cada quadro: espera ela terminar.
+          const vt = (document as Document & { activeViewTransition?: ViewTransition | null }).activeViewTransition;
+          if (vt) vt.finished.finally(() => setVisible(true));
+          else setVisible(true);
         }
       },
       { threshold: 0.15 },

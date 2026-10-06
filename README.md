@@ -14,7 +14,9 @@ npm run start
 npm run lint
 ```
 
-No environment variables, database, or external services are required — this is a static frontend with simulated booking (saved in `localStorage`) and no online payment.
+No database is required, and the site runs without any environment variables: booking is simulated (saved in `localStorage`) and there is no online payment.
+
+The only server-side piece is the chatbot ("Tire suas dúvidas"). It needs `CHATBOT_WEBHOOK_URL` and `CHATBOT_WEBHOOK_TOKEN` in `.env.local` (copy `.env.example`) and a flow running on Activepieces + Gemini; without them the widget still shows but says the chat isn't configured. Setup: [`docs/chatbot/ACTIVEPIECES.md`](./docs/chatbot/ACTIVEPIECES.md).
 
 ## Pages
 
@@ -22,6 +24,7 @@ No environment variables, database, or external services are required — this i
 - `/sobre` — história da barbearia
 - `/menu` — cardápio de serviços por categoria
 - `/produtos` — produtos vendidos no balcão
+- `/api/chat` — rota do chatbot (POST), usada pelo widget flutuante
 
 ## Design system
 

@@ -8,6 +8,7 @@
   - "review" / "audit" → relatório somente leitura
   - "review and fix" / "enforce" → audita e edita o código
 - Tailwind 4 é CSS-first: tokens no bloco `@theme` de `app/globals.css` (utilitários `tb-*`). Não existe `tailwind.config.ts` — não recrie.
-- Dados: `data/menu.ts` e `data/products.ts` (traduzidos de `docs/menu-items.csv`; preços em BRL são sugestões), `data/agenda.ts` (barbeiros, horários, endereço), `data/photos.ts` (fotos). Imagens são locais em `public/images/` (WebP).
-- Agendamento: `components/booking/BookingWizard.tsx`, salvo só em `localStorage`. Não há pagamento online nem backend.
+- Dados: `data/menu.ts` e `data/products.ts` (traduzidos de `docs/menu-items.csv`; preços em BRL são sugestões), `data/agenda.ts` (barbeiros, horários, endereço), `data/photos.ts` (fotos), `data/sobre.ts` (história). Imagens são locais em `public/images/` (WebP).
+- Agendamento: `components/booking/BookingWizard.tsx`, salvo só em `localStorage`. Não há pagamento online; o único código de servidor é a rota do chatbot.
+- Chatbot: `components/chat/ChatWidget.tsx` → `app/api/chat/route.ts` → fluxo no Activepieces (Gemini). Base de conhecimento gerada de `data/*.ts` em `lib/chatbot/contexto.ts`; setup em `docs/chatbot/ACTIVEPIECES.md`. Informação nova da barbearia vai em `data/` e numa seção do contexto.
 - Conteúdo fictício: endereço, WhatsApp, nomes dos barbeiros, história em `/sobre` e preços.

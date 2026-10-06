@@ -17,7 +17,7 @@ Site da **Talentos Black**, barbearia de bairro em Uberlândia (MG). Repositóri
 | Lint | ESLint 9 (flat config) + `eslint-config-next` | |
 | Pacotes | npm | |
 
-Sem variáveis de ambiente, banco de dados ou serviços externos: é um frontend estático.
+Sem banco de dados. A única parte com servidor é o chatbot: `app/api/chat/route.ts` repassa as perguntas a um fluxo no **Activepieces** (alternativa open source ao n8n), que chama o **Gemini**. Variáveis de ambiente: `CHATBOT_WEBHOOK_URL` e `CHATBOT_WEBHOOK_TOKEN` (ver `.env.example`). Guia: `docs/chatbot/ACTIVEPIECES.md`.
 
 ---
 
@@ -28,27 +28,34 @@ barbearia/
 ├── .claude/agents/design-enforcer.md  # Subagent que audita o código contra docs/design/
 ├── app/
 │   ├── layout.tsx        # Inter + JetBrains Mono, lang="pt-BR", Header/Footer, linha "cortina" vermelha
-│   ├── globals.css       # Tailwind + tokens (@theme) + CSS das view transitions
+│   ├── globals.css       # Tailwind + tokens (@theme) + CSS das view transitions e do botão (.btn-fill)
+│   ├── api/chat/route.ts # Chatbot: valida, monta o contexto e chama o webhook do Activepieces
 │   ├── page.tsx          # Home: hero, em alta, galeria, agendamento, CTA
 │   ├── sobre/page.tsx    # História da barbearia
 │   ├── menu/page.tsx     # Serviços por categoria/subcategoria
 │   └── produtos/page.tsx # Produtos vendidos no balcão
 ├── components/
 │   ├── booking/BookingWizard.tsx  # Agendamento
+│   ├── chat/ChatWidget.tsx        # Assistente virtual flutuante (montado no layout)
 │   ├── home/Hero.tsx
 │   ├── layout/{Header,Footer}.tsx
 │   ├── menu/{MenuBrowser,ServiceCard}.tsx
 │   ├── produtos/ProductCard.tsx
 │   ├── transition/PageShell.tsx   # Wrapper <ViewTransition> (envolva cada página, não o layout)
+│   ├── transition/PrefetchImagens.tsx # Pré-carrega imagens das outras páginas no tempo ocioso
 │   └── ui/{Button,RevealImage,SectionHeading}.tsx
 ├── data/
 │   ├── menu.ts       # Serviços, categorias, subcategorias, formatPreco
 │   ├── products.ts   # Produtos de balcão
 │   ├── agenda.ts     # Barbeiros, dias/horários de funcionamento, endereço, WhatsApp
-│   └── photos.ts     # Mapa de fotos (Unsplash) por item, com créditos
+│   ├── photos.ts     # Mapa de fotos (Unsplash) por item, com créditos
+│   └── sobre.ts      # História, valores e citação da página /sobre
 ├── docs/
+│   ├── chatbot/      # Guia do fluxo no Activepieces + código do passo Code
 │   ├── design/       # Design system (fonte de verdade da UI) — comece em README.md
 │   └── menu-items.csv # Cardápio original (EN/USD) que originou data/menu.ts e data/products.ts
+├── lib/chatbot/contexto.ts # Instruções e base de conhecimento do bot, geradas de data/*.ts
+├── .env.example      # Variáveis do chatbot (copie para .env.local, que não vai para o git)
 └── public/images/    # Fotos em WebP servidas localmente
 ```
 
@@ -69,7 +76,8 @@ barbearia/
 - **Menu de serviços**: filtro por categoria, agrupamento por subcategoria, cards com foto, preço e selo de recomendação.
 - **Produtos**: listagem de itens de balcão.
 - **Agendamento** (`BookingWizard`): 2 etapas (barbeiro/dia/horário → dados do cliente) + confirmação. Sem escolha de serviço (o cliente define com o barbeiro na cadeira) e sem pagamento (feito no local). Agendamentos ficam apenas em `localStorage` (`tb-agendamentos`); a ocupação de horários é simulada por `data/agenda.ts`.
-- **Transições de página**: `<ViewTransition>` + CSS "cortina" em `globals.css`.
+- **Chatbot** (`ChatWidget` → `/api/chat` → Activepieces → Gemini): responde sobre horários, preços, serviços, produtos, agendamento e história. A base de conhecimento é gerada de `data/*.ts` a cada pergunta (`lib/chatbot/contexto.ts`), então acompanha o site sem ajuste manual. O bot não agenda nem vê horários livres. Sem `CHATBOT_WEBHOOK_URL`, o widget avisa que o chat não está configurado.
+- **Transições de página**: `<ViewTransition>` + CSS "cortina" em `globals.css`. Animações só com `transform`/`opacity` (nada de `clip-path`/`filter` nos snapshots); o chat some durante a cortina; animações de entrada da página nova esperam a cortina acabar; `PrefetchImagens` pré-carrega as imagens das outras páginas porque o React segura a transição até as imagens visíveis carregarem.
 
 ### Placeholders (fictícios)
 
@@ -81,6 +89,7 @@ Endereço, WhatsApp, nomes dos barbeiros, história em `/sobre` e preços.
 
 - **Design**: nunca introduza cor, fonte, espaçamento ou padrão de componente que não esteja em `docs/design/` — estenda a doc primeiro. Dark mode é a apresentação principal da marca.
 - **design-enforcer**: rode após mudanças de frontend. "review"/"audit" = relatório somente leitura; "review and fix"/"enforce" = audita e edita.
+- **CSS global e Tailwind 4**: regras em `globals.css` fora de `@layer` vencem os utilitários do Tailwind (que ficam em `@layer utilities`). Se uma classe própria define `position`, `display` etc., coloque-a em `@layer components` — foi assim que `.btn-fill` deixou de anular o `fixed` do botão do chat.
 - **Copy**: PT-BR, sentence case, voz ativa (`docs/design/STYLE-GUIDE.md`).
 - **Commits**: prefixos convencionais (`feat:`, `docs:`, `chore:`), mensagens em português. O trailer de atribuição segue o que a sessão atual especificar.
 
@@ -98,4 +107,4 @@ npm run lint
 
 ---
 
-*Última atualização: 2026-09-21. Mantenha em sincronia com o código.*
+*Última atualização: 2026-10-01. Mantenha em sincronia com o código.*

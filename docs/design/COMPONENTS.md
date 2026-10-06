@@ -29,6 +29,13 @@ All components follow the black, cream, red palette and clean geometric design l
   - **Focus**: Red outline
   - **Active**: Red text
 
+### Compact size (`size="sm"`)
+- Applies to Primary and Secondary: 14px text, padding 8px 12px, min height 44px (touch target), no min width
+- Use only for secondary inline actions such as suggestion chips; page CTAs keep the default size
+
+### Positioning override (implementation note)
+- `.btn-fill` (in `app/globals.css`) sets `position: relative` and lives inside `@layer components`, so Tailwind utilities can override it (e.g. `fixed` on the chat launcher). Never move it out of the layer: unlayered CSS beats utilities and would silently cancel `fixed`/`absolute` on buttons. Its `::before`/label/arrow motion rules stay unlayered and are unaffected.
+
 ### Icon Button
 - **Size**: 40px × 40px
 - **Background**: Transparent (or hover state: charcoal)
@@ -205,6 +212,38 @@ All components follow the black, cream, red palette and clean geometric design l
 ### Modal Footer
 - **Padding**: 24px, border-top 1px gray
 - **Buttons**: Primary and secondary, right-aligned
+
+---
+
+## Chat Widget (assistente virtual)
+
+Floating assistant that answers questions about the site content (hours, prices, services, products, booking). Mounted once in `app/layout.tsx`; implementation in `components/chat/ChatWidget.tsx`.
+
+### Launcher
+- **Position**: Fixed, bottom-right, 16px from the edges (24px on `md+`), `z-40` (below the header, above content)
+- **Style**: Primary Button (red, black bold text, square, button fill on hover) with `shadow-card-hover` so it stands out over page content
+- **Label**: "Tire suas dúvidas" (visible text, not an icon-only button)
+- **Icon**: speech bubble, 20px, `currentColor`, before the label (8px gap, the Button's own gap). Outline only: 2px stroke, mitered corners and a square tail, no rounding — same geometric language as the square buttons. Decorative (`aria-hidden`); the label names the control
+- Keeps its own view-transition name (`chat-widget`) so it isn't sliced into the page snapshots; it is hidden during the page curtain and fades back in at the end (see DESIGN-TOKENS.md → Signature motion). The conversation survives navigation because the widget lives in the root layout
+- Hidden while the panel is open
+
+### Panel
+- **Style**: Same as Modal Box, without overlay: black background, 2px solid red border, radius 0, shadow `shadow-card-hover`
+- **Size**: Full width minus 16px gutters on mobile; 384px wide on `sm+`; height up to 70vh (max 560px)
+- **Header**: S Headline (18px bold) title in cream, with "Black" in red as in the Header/Footer wordmark + close button (✕, 44×44 touch target, charcoal background and red ✕ on hover, as in Modal Header), separated by a 1px `tb-cream/10` bottom border
+- **Message log**: `role="log"` with `aria-live="polite"`, vertical gap 8px, scrolls to the latest message
+  - **Assistant message**: charcoal background, cream text, left-aligned, 14px, padding 8px 12px, max width 85%
+  - **User message**: cream background, black text, right-aligned, same size and padding
+  - **Pending**: assistant bubble with the text "Digitando…" in mono caption (12px, 500), 60% cream — no animation
+  - **Error**: Alert (error) pattern — charcoal, 4px red left border, 16px padding, 14px text
+- **Suggestions** (only before the first question): Secondary Button, compact size (`size="sm"`: 14px, padding 8px 12px, min height 44px, no min width), wrapping row with 8px gap
+- **Composer**: Text Input (charcoal, 1px light gray border, red 2px border on focus) + Primary Button "Enviar", 8px gap, separated by a 1px `tb-cream/10` top border; max 500 characters
+- **Footnote**: Caption (12px, 500) in `tb-cream/60`: automatic answers can contain errors; confirm by WhatsApp
+
+### Behavior
+- Opening moves focus to the input; `Esc` or ✕ closes and returns focus to the launcher
+- No open/close animation (only the three signature motions animate)
+- Conversation stays in memory while the visitor browses the site (not persisted)
 
 ---
 

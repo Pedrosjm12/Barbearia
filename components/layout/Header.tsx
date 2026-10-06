@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { PrefetchImagens } from "@/components/transition/PrefetchImagens";
 import { ButtonLink } from "@/components/ui/Button";
 
 const links = [
@@ -11,6 +12,7 @@ const links = [
   { href: "/menu", label: "Menu" },
   { href: "/produtos", label: "Produtos" },
 ];
+const rotas = links.map((l) => l.href);
 
 export function Header() {
   const pathname = usePathname();
@@ -89,6 +91,7 @@ export function Header() {
           Agendar horário
         </ButtonLink>
       </nav>
+      <PrefetchImagens rotas={rotas} />
     </header>
   );
 }
