@@ -16,7 +16,8 @@ Navegador ◀── { resposta } ───────┘
 
 - **O conteúdo vem do código do site.** Mudou um preço em `data/menu.ts`? O bot já responde com o valor novo. O fluxo não guarda nenhuma informação da barbearia.
 - **O navegador só fala com o próprio site.** A URL do webhook, o token e a chave do Gemini ficam no servidor (o CSP `connect-src 'self'` continua valendo).
-- A rota limita o tamanho das perguntas (500 caracteres), o histórico (12 mensagens) e a frequência (20 perguntas a cada 5 minutos por IP).
+- A rota limita o tamanho de cada mensagem (500 caracteres), do corpo da requisição (16 KB), o histórico (12 mensagens) e a frequência (20 perguntas a cada 5 minutos por IP).
+- `CHATBOT_WEBHOOK_TOKEN` é obrigatório: sem ele a rota responde `503` e não chama o fluxo. O passo Code do fluxo deve recusar qualquer requisição cujo header `x-chatbot-token` seja diferente do `token` configurado nele.
 
 ## 1. Subir o Activepieces
 

@@ -7,6 +7,7 @@ type Mensagem = { papel: "usuario" | "assistente"; texto: string };
 
 const MAX_MENSAGENS = 12;
 const MAX_CARACTERES = 500;
+const MAX_CORPO_BYTES = 16_000;
 const TIMEOUT_MS = 30_000;
 
 // Limite simples por IP, em memória (reinicia junto com o servidor).
@@ -19,7 +20,11 @@ function excedeuLimite(ip: string) {
   const recentes = (acessos.get(ip) ?? []).filter((t) => agora - t < JANELA_MS);
   recentes.push(agora);
   acessos.set(ip, recentes);
-  if (acessos.size > 5_000) acessos.clear();
+  if (acessos.size > 5_000) {
+    for (const [chave, tempos] of acessos) {
+      if (agora - tempos[tempos.length - 1] >= JANELA_MS) acessos.delete(chave);
+    }
+  }
   return recentes.length > MAX_POR_JANELA;
 }
 
@@ -30,11 +35,12 @@ function validar(corpo: unknown): Mensagem[] | null {
     (m): m is Mensagem =>
       (m?.papel === "usuario" || m?.papel === "assistente") &&
       typeof m.texto === "string" &&
-      m.texto.trim().length > 0,
+      m.texto.trim().length > 0 &&
+      m.texto.length <= MAX_CARACTERES,
   );
   const ultima = validas.at(-1);
-  if (!ultima || ultima.papel !== "usuario" || ultima.texto.length > MAX_CARACTERES) return null;
-  return validas.map((m) => ({ papel: m.papel, texto: m.texto.slice(0, MAX_CARACTERES * 4) }));
+  if (!ultima || ultima.papel !== "usuario") return null;
+  return validas.map((m) => ({ papel: m.papel, texto: m.texto }));
 }
 
 // O Return Response do Activepieces pode chegar como JSON { resposta } ou texto puro.
@@ -55,16 +61,27 @@ const erro = (mensagem: string, status: number) => Response.json({ erro: mensage
 
 export async function POST(request: Request) {
   const webhook = process.env.CHATBOT_WEBHOOK_URL;
-  if (!webhook) {
+  const token = process.env.CHATBOT_WEBHOOK_TOKEN;
+  if (!webhook || !token) {
     return erro("O chat ainda não foi configurado. Fale com a gente pelo WhatsApp.", 503);
   }
 
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
+  // x-real-ip é definido pela hospedagem (ex.: Vercel); o primeiro item de x-forwarded-for o cliente consegue forjar.
+  const ip =
+    request.headers.get("x-real-ip")?.trim() ||
+    request.headers.get("x-forwarded-for")?.split(",").at(-1)?.trim() ||
+    "local";
   if (excedeuLimite(ip)) {
     return erro("Muitas perguntas seguidas. Espere alguns minutos e tente de novo.", 429);
   }
 
-  const mensagens = validar(await request.json().catch(() => null));
+  const bruto = await request.text().catch(() => "");
+  if (bruto.length > MAX_CORPO_BYTES) return erro("Mensagem grande demais.", 413);
+  let corpo: unknown = null;
+  try {
+    corpo = JSON.parse(bruto);
+  } catch {}
+  const mensagens = validar(corpo);
   if (!mensagens) {
     return erro(`Escreva sua pergunta com até ${MAX_CARACTERES} caracteres.`, 400);
   }
@@ -74,7 +91,7 @@ export async function POST(request: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-chatbot-token": process.env.CHATBOT_WEBHOOK_TOKEN ?? "",
+        "x-chatbot-token": token,
       },
       body: JSON.stringify({ sistema: montarInstrucoes(), mensagens }),
       signal: AbortSignal.timeout(TIMEOUT_MS),
